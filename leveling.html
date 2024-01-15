@@ -7,7 +7,7 @@
   survivor.io Leveling Calculator
 </title>
 <style>
-body {
+body, dialog {
   background-color: #222;
   color: #ddd;
 }
@@ -19,20 +19,27 @@ input, select {
 label {
   white-space: nowrap;
 }
-.flex-dl div{
+.flex-dl div {
   display: flex;
 }
 .flex-dl.star dt{
   width:84px;
 }
-.flex-dl.result dt{
+.flex-dl.result dt {
   width:44px;
 }
 .flex-dl dd {
   font-weight: bold;
 }
+#modal dd {
+  font-weight: bold;
+}
 .bold {
   font-weight: bold;
+}
+#show-modal::before {
+  content: '▶ ';
+  font-size:70%;
 }
 </style>
 </head>
@@ -104,6 +111,83 @@ label {
             </select>
           </label>
         </p>
+        <p id="show-modal" class="bold" onclick="modal.showModal()">All Survivors Effect</p>
+        <dialog id="modal">
+          <div id="modal-content">
+            <dl>
+              <dt>Common</dt>
+              <dd>Lv.40: <span class="bold">Crit Damage +5%</span></dd>
+              <dd>Lv.80: <span class="bold">Heal 5% (Level up)</span></dd>
+              <dd>★5: <span class="bold">HP +4%</span></dd>
+            </dl>
+            <dl>
+              <dt>Tsukuyomi</dt>
+              <dd>Lv.40: <span class="bold">ATK +5%</span></dd>
+              <dd>Lv.80: <span class="bold">Crit Rate +5% </span></dd>
+              <dd>★5: <span class="bold">ATK +4%</span></dd>
+            </dl>
+            <dl>
+              <dt>Catnips</dt>
+              <dd>Lv.40: <span class="bold">HP +5%</span></dd>
+              <dd>Lv.80: <span class="bold">Revival effect +5%</span></dd>
+              <dd>★5: <span class="bold">HP +4%</span></dd>
+            </dl>
+            <dl>
+              <dt>Worm</dt>
+              <dd>Lv.40: <span class="bold">HP +5%</span></dd>
+              <dd>Lv.80: <span class="bold">Revival effect +5%</span></dd>
+              <dd>★5: <span class="bold">ATK +4%</span></dd>
+            </dl>
+            <dl>
+              <dt>King</dt>
+              <dd>Lv.40: <span class="bold">ATK +5%</span></dd>
+              <dd>Lv.80: <span class="bold">Crit Rate +5%</span></dd>
+              <dd>★5: <span class="bold">HP +4%</span></dd>
+            </dl>
+            <dl>
+              <dt>Squidward</dt>
+              <dd>Lv.40: <span class="bold">Crit Damage +5%</span></dd>
+              <dd>Lv.80: <span class="bold">Heal 5% (Level up)</span></dd>
+              <dd>★5: <span class="bold">HP +4%</span></dd>
+            </dl>
+            <dl>
+              <dt>Spongebob</dt>
+              <dd>Lv.40: <span class="bold">Crit Damage +5%</span></dd>
+              <dd>Lv.80: <span class="bold">Heal 5% (Level up)</span></dd>
+              <dd>★5: <span class="bold">ATK +4%</span></dd>
+            </dl>
+            <dl>
+              <dt>Wesson</dt>
+              <dd>Lv.40: <span class="bold">ATK +5%</span></dd>
+              <dd>Lv.80: <span class="bold">Crit Rate +5%</span></dd>
+              <dd>★5: <span class="bold">ATK +4%</span></dd>
+            </dl>
+            <dl>
+              <dt>Yelena</dt>
+              <dd>Lv.40: <span class="bold">HP +5%</span></dd>
+              <dd>Lv.80: <span class="bold">Revival effect +5%</span></dd>
+              <dd>★5: <span class="bold">HP +4%</span></dd>
+            </dl>
+            <dl>
+              <dt>Master Yang</dt>
+              <dd>Lv.40: <span class="bold">ATK +5%</span></dd>
+              <dd>Lv.80: <span class="bold">Revival effect +5%</span></dd>
+              <dd>★5: <span class="bold">ATK +8%</span></dd>
+            </dl>
+            <dl>
+              <dt>Patrick</dt>
+              <dd>Lv.40: <span class="bold">Crit Damage +5%</span></dd>
+              <dd>Lv.80: <span class="bold">Heal 5% (Level up)</span></dd>
+              <dd>★5: <span class="bold">ATK +4%</span></dd>
+            </dl>
+            <dl>
+              <dt>Sandy</dt>
+              <dd>Lv.40: <span class="bold">Crit Damage +5%</span></dd>
+              <dd>Lv.80: <span class="bold">Heal 5% (Level up)</span></dd>
+              <dd>★5: <span class="bold">HP +4%</span></dd>
+            </dl>
+          </div>
+        </dialog>
       </fieldset>
     </form>
     <div id="result2">
@@ -251,6 +335,12 @@ label {
       }
       return result;
     }
+    const modal = document.getElementById('modal');
+    modal.addEventListener('click', (event) => {
+      if(event.target.closest('#modal-content') === null) {
+        modal.close();
+      }
+    });
   </script>
 </body>
 </html>
