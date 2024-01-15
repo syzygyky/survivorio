@@ -81,14 +81,14 @@ label {
             <option value="6">★★★★★★</option>            
           </select>
           <dl class="flex-dl star">
-            <div><dt>★★</dt><dd>Atk +400, HP +2000</dd></div>
+            <div><dt>★★</dt><dd>ATK +400, HP +2000</dd></div>
             <div><dt>★★★</dt><dd>HP +20%</dd></div>
-            <div><dt>★★★★</dt><dd>Atk +1000, HP +5000</dd></div>
-            <div><dt>★★★★★★</dt><dd>Atk +20%</dd></div>
+            <div><dt>★★★★</dt><dd>ATK +1000, HP +5000</dd></div>
+            <div><dt>★★★★★★</dt><dd>ATK +20%</dd></div>
           </dl>
         </p>
         <p>
-          <label>Atk+<input type="number" name="atkUp" style="width:3em;">%, </label>
+          <label>ATK+<input type="number" name="atkUp" style="width:3em;">%, </label>
           <label>HP+<input type="number" name="hpUp" style="width:3em;">%, </label>
           <label>Clan Lv:
             <select name="perks">
@@ -195,11 +195,11 @@ label {
       }
       if(lv >= 60) {
         atk += lvBoost[statsType][1];
-        remark += `, <label>Lv.60: <span class="bold">Atk +${lvBoost[statsType][1]}</span></label>`;
+        remark += `, <label>Lv.60: <span class="bold">ATK +${lvBoost[statsType][1]}</span></label>`;
       }
       if(lv >= 100) {
         atk += lvBoost[statsType][2];
-        remark += `, <label>Lv.100: <span class="bold">Atk +${lvBoost[statsType][2]}</span></label>`;
+        remark += `, <label>Lv.100: <span class="bold">ATK +${lvBoost[statsType][2]}</span></label>`;
       }
       if(star >= 2) {
         atk += 400;
@@ -218,7 +218,7 @@ label {
         
       atk = Math.trunc(atk * (100 + perks + atkUp) / 100);
       hp = Math.trunc(hp * (100 + perks + hpUp) / 100);
-      const resultHTML = `<div><dt>Atk: </dt><dd>${atk.toLocaleString()}</dd></div><div><dt>HP: </dt><dd>${hp.toLocaleString()}</dd></div><div><dt>Gold: </dt><dd>${result.gold.toLocaleString()}k</dd></div><div><dt>Essence: </dt><dd>${result.essence.toLocaleString()}</dd></div>`;
+      const resultHTML = `<div><dt>ATK: </dt><dd>${atk.toLocaleString()}</dd></div><div><dt>HP: </dt><dd>${hp.toLocaleString()}</dd></div><div><dt>Gold: </dt><dd>${result.gold.toLocaleString()}k</dd></div><div><dt>Essence: </dt><dd>${result.essence.toLocaleString()}</dd></div>`;
       document.querySelector('#result2 dl').innerHTML = resultHTML;
       let remarkHTML = '';
       (remark.length > 0) ? remarkHTML = `(${remark})` : remarkHTML = '';
