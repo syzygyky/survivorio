@@ -13,7 +13,7 @@ body,dialog {
   background-color: #222;
   color: #ddd;
 }
-input,select {
+input,select, button {
   background-color: #333;
   color: #ddd;
   border: solid 2px #aaa;
@@ -60,6 +60,13 @@ label {
   font-weight: bold;
 }
 
+form {
+  border: solid 1px #888;
+}
+.result {
+  border-top: solid 1px #555;
+  height: 1em;
+}
 </style>
 </head>
 <body>
@@ -71,12 +78,12 @@ label {
         <label><input type="radio" name="usage" value="2">x2</label>
         <label><input type="radio" name="usage" value="1">x1</label>
       </p>
-      <fieldset class="prizes">
+      <fieldset class="prizes-field">
         <legend>Prizes</legend>
         <p>
           <label><input type="checkbox" name="last" checked>Last Prize</label>
         </p>
-        <p id="prizes">
+        <p class="prizes">
           <label>A: <input type="number" name="a"></label>
           <label>B: <input type="number" name="b"></label>
           <label>C: <input type="number" name="c"></label>
@@ -85,10 +92,36 @@ label {
           <label>F: <input type="number" name="f"></label>
           <label>G: <input type="number" name="g"></label>
         </p>
-      </div>
+      </fieldset>
+      <button type="reset">Reset</button>
+      <p class="result"></p>
     </form>
     <hr>
-    <p id="result"></p>
+    <form name="form2">
+      <p>
+        Ticket Price:
+        <label><input type="radio" name="usage" value="3" checked>x3</label>
+        <label><input type="radio" name="usage" value="2">x2</label>
+        <label><input type="radio" name="usage" value="1">x1</label>
+      </p>
+      <fieldset class="prizes-field">
+        <legend>Prizes</legend>
+        <p>
+          <label><input type="checkbox" name="last" checked>Last Prize</label>
+        </p>
+        <p class="prizes">
+          <label>A: <input type="number" name="a"></label>
+          <label>B: <input type="number" name="b"></label>
+          <label>C: <input type="number" name="c"></label>
+          <label>D: <input type="number" name="d"></label>
+          <label>E: <input type="number" name="e"></label>
+          <label>F: <input type="number" name="f"></label>
+          <label>G: <input type="number" name="g"></label>
+        </p>
+      </fieldset>
+      <button type="reset">Reset</button>
+      <p class="result"></p>
+    </form>
   </div>
   <script>
     const exchangeTable = {
@@ -101,14 +134,14 @@ label {
       g:[6,12,18]
     }
     function pointCalc(){
-      const usage = Number(document.form1.usage.value);
-      const prizesInput = document.querySelectorAll('#prizes input');
-      const includeLastPrize = document.form1.last.checked;
+      const FORM = event.target.closest('form');
+      const usage = Number(FORM.usage.value);
+      const prizesInput = FORM.querySelectorAll('p.prizes input');
+      const includeLastPrize = FORM.last.checked;
       const prizes = {};
       Array.from(prizesInput).forEach(elm=>{
         prizes[elm.name] = Number(elm.value);
       })
-      console.log(prizes);
 
       let sum = 0;
       for(const key of Object.keys(prizes)){
@@ -116,9 +149,10 @@ label {
       }
       if(includeLastPrize) sum += exchangeTable.a[usage-1];
       const ticket = Math.trunc(sum/3)/10;
-      document.getElementById('result').textContent = sum + ' (Ticket:' + ticket + ')';
+      FORM.querySelector('.result').textContent = sum + ' (Ticket:' + ticket + ')';
     }
     document.form1.addEventListener('input',pointCalc);
+    document.form2.addEventListener('input',pointCalc);
   </script>
 </body>
 </html>
