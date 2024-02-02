@@ -2,16 +2,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="ROBOTS" content="NOINDEX,NOFOLLOW">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>
   survivor.io Leveling Calculator
 </title>
 <style>
-body, dialog {
+body,dialog {
   background-color: #222;
   color: #ddd;
 }
-input, select {
+input,select {
   background-color: #333;
   color: #ddd;
   border: solid 2px #aaa;
@@ -19,27 +21,24 @@ input, select {
 label {
   white-space: nowrap;
 }
-.flex-dl div {
+.flex-dl div{
   display: flex;
 }
 .flex-dl.star dt{
   width:84px;
 }
-.flex-dl.result dt {
+.flex-dl.result dt{
   width:44px;
 }
 .flex-dl dd {
-  font-weight: bold;
-}
-#modal dt {
   font-weight: bold;
 }
 .bold {
   font-weight: bold;
 }
 #show-modal::before {
-  content: '▶ ';
-  font-size:70%;
+  content:'▶ ';
+  font-size: 70%;
 }
 </style>
 </head>
@@ -48,7 +47,7 @@ label {
     <form name="form">
       <fieldset oninput="essenceCalc()">
         <legend>Possessions</legend>
-        <p><label>Gold: <input type="number" name="gold" style="width:6em"></label>k</p>
+        <p><label>Gold: <input type="number" name="gold" style="width:6em;border: solid 2px #aaa;"></label>k</p>
         <p><label>Essence: <input type="number" name="essence" style="width:6em"></label>k</p>
       </fieldset>
       <fieldset oninput="essenceCalc()">
@@ -88,9 +87,9 @@ label {
             <option value="6">★★★★★★</option>            
           </select>
           <dl class="flex-dl star">
-            <div><dt>★★</dt><dd>ATK +400, HP +2000</dd></div>
+            <div><dt>★★</dt><dd id="train2">ATK +400, HP +2000</dd></div>
             <div><dt>★★★</dt><dd>HP +20%</dd></div>
-            <div><dt>★★★★</dt><dd>ATK +1000, HP +5000</dd></div>
+            <div><dt>★★★★</dt><dd id="train4">ATK +1000, HP +5000</dd></div>
             <div><dt>★★★★★★</dt><dd>ATK +20%</dd></div>
           </dl>
         </p>
@@ -114,90 +113,78 @@ label {
         <p id="show-modal" class="bold" onclick="modal.showModal()">All Survivors Effect</p>
         <dialog id="modal">
           <div id="modal-content">
-            <dl>
-              <dt>Common</dt>
-              <dd>Lv.40: <span class="bold">Crit Damage +5%</span></dd>
-              <dd>Lv.80: <span class="bold">Heal 5% (Level up)</span></dd>
-              <dd>Lv.120: <span class="bold">Crit Rate +5%</span></dd>
-              <dd>★5: <span class="bold">HP +4%</span></dd>
-            </dl>
-            <dl>
-              <dt>Tsukuyomi</dt>
-              <dd>Lv.40: <span class="bold">ATK +5%</span></dd>
-              <dd>Lv.80: <span class="bold">Crit Rate +5% </span></dd>
-              <dd>Lv.120: <span class="bold">Crit Damage +5%</span></dd>
-              <dd>★5: <span class="bold">ATK +4%</span></dd>
-            </dl>
-            <dl>
-              <dt>Catnips</dt>
-              <dd>Lv.40: <span class="bold">HP +5%</span></dd>
-              <dd>Lv.80: <span class="bold">Revival effect +5%</span></dd>
-              <dd>Lv.120: <span class="bold">ATK +5%</span></dd>
-              <dd>★5: <span class="bold">HP +4%</span></dd>
-            </dl>
-            <dl>
-              <dt>Worm</dt>
-              <dd>Lv.40: <span class="bold">HP +5%</span></dd>
-              <dd>Lv.80: <span class="bold">Revival effect +5%</span></dd>
-              <dd>Lv.120: <span class="bold">ATK +5%</span></dd>
-              <dd>★5: <span class="bold">ATK +4%</span></dd>
-            </dl>
-            <dl>
-              <dt>King</dt>
-              <dd>Lv.40: <span class="bold">ATK +5%</span></dd>
-              <dd>Lv.80: <span class="bold">Crit Rate +5%</span></dd>
-              <dd>Lv.120: <span class="bold">Crit Damage +5%</span></dd>
-              <dd>★5: <span class="bold">HP +4%</span></dd>
-            </dl>
-            <dl>
-              <dt>Squidward</dt>
-              <dd>Lv.40: <span class="bold">Crit Damage +5%</span></dd>
-              <dd>Lv.80: <span class="bold">Heal 5% (Level up)</span></dd>
-              <dd>Lv.120: <span class="bold">Crit Rate +5%</span></dd>
-              <dd>★5: <span class="bold">HP +4%</span></dd>
-            </dl>
-            <dl>
-              <dt>SpongeBob</dt>
-              <dd>Lv.40: <span class="bold">Crit Damage +5%</span></dd>
-              <dd>Lv.80: <span class="bold">Heal 5% (Level up)</span></dd>
-              <dd>Lv.120: <span class="bold">Crit Rate +5%</span></dd>
-              <dd>★5: <span class="bold">ATK +4%</span></dd>
-            </dl>
-            <dl>
-              <dt>Wesson</dt>
-              <dd>Lv.40: <span class="bold">ATK +5%</span></dd>
-              <dd>Lv.80: <span class="bold">Crit Rate +5%</span></dd>
-              <dd>Lv.120: <span class="bold">Crit Damage +5%</span></dd>
-              <dd>★5: <span class="bold">ATK +4%</span></dd>
-            </dl>
-            <dl>
-              <dt>Yelena</dt>
-              <dd>Lv.40: <span class="bold">HP +5%</span></dd>
-              <dd>Lv.80: <span class="bold">Revival effect +5%</span></dd>
-              <dd>Lv.120: <span class="bold">ATK +5%</span></dd>
-              <dd>★5: <span class="bold">HP +4%</span></dd>
-            </dl>
-            <dl>
-              <dt>Master Yang</dt>
-              <dd>Lv.40: <span class="bold">ATK +5%</span></dd>
-              <dd>Lv.80: <span class="bold">Revival effect +5%</span></dd>
-              <dd>Lv.120: <span class="bold">Crit Rate +10%</span></dd>
-              <dd>★5: <span class="bold">ATK +8%</span></dd>
-            </dl>
-            <dl>
-              <dt>Patrick</dt>
-              <dd>Lv.40: <span class="bold">Crit Damage +5%</span></dd>
-              <dd>Lv.80: <span class="bold">Heal 5% (Level up)</span></dd>
-              <dd>Lv.120: <span class="bold">Crit Rate +5%</span></dd>
-              <dd>★5: <span class="bold">ATK +4%</span></dd>
-            </dl>
-            <dl>
-              <dt>Sandy</dt>
-              <dd>Lv.40: <span class="bold">Crit Damage +5%</span></dd>
-              <dd>Lv.80: <span class="bold">Heal 5% (Level up)</span></dd>
-              <dd>Lv.120: <span class="bold">Crit Rate +5%</span></dd>
-              <dd>★5: <span class="bold">HP +4%</span></dd>
-            </dl>
+          <dl>
+            <dt>Common</dt>
+            <dd>Lv.40: <span class="bold">Crit Damage +5%</span></dd>
+            <dd>Lv.80: <span class="bold">Heal 5% (Level up)</span></dd>
+            <dd>★5: <span class="bold">HP +4%</span></dd>
+          </dl>
+          <dl>
+            <dt>Tsukuyomi</dt>
+            <dd>Lv.40: <span class="bold">ATK +5%</span></dd>
+            <dd>Lv.80: <span class="bold">Crit Rate +5% </span></dd>
+            <dd>★5: <span class="bold">ATK +4%</span></dd>
+          </dl>
+          <dl>
+            <dt>Catnips</dt>
+            <dd>Lv.40: <span class="bold">HP +5%</span></dd>
+            <dd>Lv.80: <span class="bold">Revival effect +5%</span></dd>
+            <dd>★5: <span class="bold">HP +4%</span></dd>
+          </dl>
+          <dl>
+            <dt>Worm</dt>
+            <dd>Lv.40: <span class="bold">HP +5%</span></dd>
+            <dd>Lv.80: <span class="bold">Revival effect +5%</span></dd>
+            <dd>★5: <span class="bold">ATK +4%</span></dd>
+          </dl>
+          <dl>
+            <dt>King</dt>
+            <dd>Lv.40: <span class="bold">ATK +5%</span></dd>
+            <dd>Lv.80: <span class="bold">Crit Rate +5%</span></dd>
+            <dd>★5: <span class="bold">HP +4%</span></dd>
+          </dl>
+          <dl>
+            <dt>Squidward</dt>
+            <dd>Lv.40: <span class="bold">Crit Damage +5%</span></dd>
+            <dd>Lv.80: <span class="bold">Heal 5% (Level up)</span></dd>
+            <dd>★5: <span class="bold">HP +4%</span></dd>
+          </dl>
+          <dl>
+            <dt>Spongebob</dt>
+            <dd>Lv.40: <span class="bold">Crit Damage +5%</span></dd>
+            <dd>Lv.80: <span class="bold">Heal 5% (Level up)</span></dd>
+            <dd>★5: <span class="bold">ATK +4%</span></dd>
+          </dl>
+          <dl>
+            <dt>Wesson</dt>
+            <dd>Lv.40: <span class="bold">ATK +5%</span></dd>
+            <dd>Lv.80: <span class="bold">Crit Rate +5%</span></dd>
+            <dd>★5: <span class="bold">ATK +4%</span></dd>
+          </dl>
+          <dl>
+            <dt>Yelena</dt>
+            <dd>Lv.40: <span class="bold">HP +5%</span></dd>
+            <dd>Lv.80: <span class="bold">Revival effect +5%</span></dd>
+            <dd>★5: <span class="bold">HP +4%</span></dd>
+          </dl>
+          <dl>
+            <dt>Master Yang</dt>
+            <dd>Lv.40: <span class="bold">ATK +5%</span></dd>
+            <dd>Lv.80: <span class="bold">Revival effect +5%</span></dd>
+            <dd>★5: <span class="bold">ATK +8%</span></dd>
+          </dl>
+          <dl>
+            <dt>Patrick</dt>
+            <dd>Lv.40: <span class="bold">Crit Damage +5%</span></dd>
+            <dd>Lv.80: <span class="bold">Heal 5% (Level up)</span></dd>
+            <dd>★5: <span class="bold">ATK +4%</span></dd>
+          </dl>
+          <dl>
+            <dt>Sandy</dt>
+            <dd>Lv.40: <span class="bold">Crit Damage +5%</span></dd>
+            <dd>Lv.80: <span class="bold">Heal 5% (Level up)</span></dd>
+            <dd>★5: <span class="bold">HP +4%</span></dd>
+          </dl>
           </div>
         </dialog>
       </fieldset>
@@ -270,6 +257,18 @@ label {
       let atkUp = Number(document.form2.atkUp.value);
       let hpUp = Number(document.form2.hpUp.value);
 
+      let trainText2 = '';
+      let trainText4 = '';
+      if(statsType === 's') {
+        trainText2 = 'Atk +600, HP +3000';
+        trainText4 = 'Atk +1500, HP +7500';
+      } else {
+        trainText2 = 'Atk +400, HP +2000';
+        trainText4 = 'Atk +1000, HP +5000';
+      }
+      document.getElementById('train2').textContent = trainText2;
+      document.getElementById('train4').textContent = trainText4;
+
       if(lv > 120) lv = 120;
       if(lv < 0) lv = 0;
       let srvType;
@@ -282,6 +281,10 @@ label {
       const lvBoost = {
         n:[1000,600,1000],
         s:[3000,1200,1800]
+      }
+      const train = {
+        n:[[400,2000],[1000,5000]],
+        s:[[600,3000],[1500,7500]]
       }
       let remark = '';
       
@@ -298,12 +301,12 @@ label {
         remark += `, <label>Lv.100: <span class="bold">ATK +${lvBoost[statsType][2]}</span></label>`;
       }
       if(star >= 2) {
-        atk += 400;
-        hp += 2000;
+        atk += train[statsType][0][0];
+        hp += train[statsType][0][1];
       }
       if(star >= 4) {
-        atk += 1000;
-        hp += 5000;
+        atk += train[statsType][1][0];
+        hp += train[statsType][1][1];
       }
       if(star >= 3) {
         hpUp += 20;     
@@ -347,12 +350,21 @@ label {
       }
       return result;
     }
+
     const modal = document.getElementById('modal');
     modal.addEventListener('click', (event) => {
       if(event.target.closest('#modal-content') === null) {
         modal.close();
       }
     });
+    
+    /*
+    let str='';
+    const v=[48,48,72,56,174,484,640,800,960,1200,1400,1600];
+    for(let j=0;j<v.length;j++){
+      for(let i=0;i<10;i++){str+=v[j]+',';}
+    }
+    */
   </script>
 </body>
 </html>
