@@ -50,7 +50,7 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 0;
 }
 .prizes input[type="number"] {
-  width:3em;
+  width: 3em;
 }
 label {
   white-space: nowrap;
@@ -63,21 +63,38 @@ label {
 form {
   border: solid 1px #888;
 }
+.prizes-field {
+  padding-top: 0;
+}
 .result {
   border-top: solid 1px #555;
   height: 1em;
+}
+
+.boxLeft {
+  border: solid 1px #aaa;
+}
+.boxLeft input {
+  width: 2em;
+}
+input.boxTotal {
+  border: none;
 }
 </style>
 </head>
 <body>
   <div class="container">
     <form name="form1">
-      <p>
-        Ticket Price:
-        <label><input type="radio" name="usage" value="3" checked>x3</label>
-        <label><input type="radio" name="usage" value="2">x2</label>
-        <label><input type="radio" name="usage" value="1">x1</label>
-      </p>
+      <fieldset class="boxType">
+        <legend>Box Type</legend>
+        <label><input type="radio" name="boxType" value="3" checked>x3</label>
+        <label><input type="radio" name="boxType" value="2">x2</label>
+        <label><input type="radio" name="boxType" value="1a">x1(120)</label>
+        <label><input type="radio" name="boxType" value="1b">x1(160)</label>
+        <label class="boxLeft">Rewards Left:
+          <input type="number" name="boxLeft">/<input type="number" class="boxTotal" value="80" disabled>
+        </label>
+      </fieldset>
       <fieldset class="prizes-field">
         <legend>Prizes</legend>
         <p>
@@ -98,12 +115,16 @@ form {
     </form>
     <hr>
     <form name="form2">
-      <p>
-        Ticket Price:
-        <label><input type="radio" name="usage" value="3" checked>x3</label>
-        <label><input type="radio" name="usage" value="2">x2</label>
-        <label><input type="radio" name="usage" value="1">x1</label>
-      </p>
+      <fieldset class="boxType">
+        <legend>Box Type</legend>
+        <label><input type="radio" name="boxType" value="3" checked>x3</label>
+        <label><input type="radio" name="boxType" value="2">x2</label>
+        <label><input type="radio" name="boxType" value="1a">x1(120)</label>
+        <label><input type="radio" name="boxType" value="1b">x1(160)</label>
+        <label class="boxLeft">Rewards Left:
+          <input type="number" name="boxLeft">/<input type="number" class="boxTotal" value="80" disabled>
+        </label>
+      </fieldset>
       <fieldset class="prizes-field">
         <legend>Prizes</legend>
         <p>
@@ -125,17 +146,22 @@ form {
   </div>
   <script>
     const exchangeTable = {
-      a:[270,360,540],
-      b:[90,180,270],
-      c:[45,120,180],
-      d:[27,90,135],
-      e:[9,18,27],
-      f:[9,18,27],
-      g:[6,12,18]
+      a:{'1a':270,'1b':360,'2':360,'3':540},
+      b:{'1a':90,'1b':120,'2':180,'3':270},
+      c:{'1a':45,'1b':60,'2':120,'3':180},
+      d:{'1a':27,'1b':36,'2':90,'3':135},
+      e:{'1a':9,'1b':9,'2':18,'3':27},
+      f:{'1a':9,'1b':9,'2':18,'3':27},
+      g:{'1a':6,'1b':6,'2':12,'3':18}
+    }
+    const boxData = {
+      total:{'1a':120,'1b':160,'2':80,'3':80},
+      price:{'1a':1,'1b':1,'2':2,'3':3}
     }
     function pointCalc(){
       const FORM = event.target.closest('form');
-      const usage = Number(FORM.usage.value);
+      const boxType = FORM.boxType.value;
+      const boxLeft = Number(FORM.boxLeft.value);
       const prizesInput = FORM.querySelectorAll('p.prizes input');
       const includeLastPrize = FORM.last.checked;
       const prizes = {};
@@ -145,11 +171,16 @@ form {
 
       let sum = 0;
       for(const key of Object.keys(prizes)){
-        sum += exchangeTable[key][usage-1] * prizes[key];
+        sum += exchangeTable[key][boxType] * prizes[key];
       }
-      if(includeLastPrize) sum += exchangeTable.a[usage-1];
+      if(includeLastPrize) sum += exchangeTable.a[boxType];
       const ticket = Math.trunc(sum/3)/10;
-      FORM.querySelector('.result').textContent = sum + ' (Ticket:' + ticket + ')';
+      const usage = boxLeft * boxData.price[boxType];
+      const returnRate = Math.trunc(ticket*10000/usage)/100;
+
+      if(boxLeft > 0) FORM.querySelector('.result').textContent = sum + ' (Ticket:' + ticket + ', '+ returnRate +'% back)';
+      else FORM.querySelector('.result').textContent = sum + ' (Ticket:' + ticket + ')';
+      FORM.querySelector('.boxTotal').value = boxData.total[boxType];
     }
     document.form1.addEventListener('input',pointCalc);
     document.form2.addEventListener('input',pointCalc);
