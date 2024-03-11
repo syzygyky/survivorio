@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="./css/dark.css">
+  <title>Murica Simulator - Survivor.io</title>
+  <style>
+    h1 {
+      font-size: 18px;
+    }
+    input[type="number"] {
+      text-align: right;
+      -moz-appearance: textfield;
+    }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type="radio"] {
+      margin-top: 0;
+    }
+    dt {
+      margin-top: 4px;
+    }
+    dd {
+      margin-left: 8px;
+    }
+    dd label {
+      display: inline-flex;
+      width: 60px;
+      align-items: center;
+      justify-content: space-between;
+      padding-right: 4px;
+    }
+    dd.gary div {
+      text-align: right;
+    }
+    .none {
+      background-color: #888;
+      color: #fff;
+    }
+    .purple {
+      background-color: #c726ff;
+      color: #eee;
+    }
+    .yellow {
+      background-color: #ffdd00;
+      color: #000;
+    }
+    .red {
+      background-color: #ff4262;
+      color: #eee;
+    }
+    div#result {
+      border: solid 1px #ccc;
+      width: 100vw;
+    }
+    div#result dl {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      align-items: center;
+
+    }
+    div#result dt {
+      width: 20%;
+      margin-left: 20px;
+      margin-bottom: 10px;
+    }
+
+    div#result dd {
+      width: 70%;
+      font-weight: bold;
+    }
+    .bold {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Murica Simulator (beta)</h1>
+    <form name="form">
+      <fieldset>
+        <fieldset>
+          <legend>Stat</legend>
+          <label>Survivor ATK: <input type="number" name="survivorAtk" style="width:6em;" min="0"></label>
+           / 
+          <label>
+            Pet Quality:
+            <select name="quality">
+              <option value="legend">Legend</option>
+              <option value="epic3">Epic +3</option>
+              <option value="epic2">Epic +2</option>
+              <option value="epic1">Epic +1</option>
+              <option value="epic">Epic</option>
+            </select>
+          </label>
+          <label>Pet Lv: <input type="number" name="petLv" style="width:4em;" placeholder="110" min="0"></label>
+          <label>Awakening Level:
+            <select name="awaken">
+              <option value="yellow1">☆1+</option>
+              <option value="yellow3">☆3+</option>
+              <option value="yellow5">☆5+</option>
+              <option value="red2">★2+</option>
+              <option value="red5">★5</option>
+            </select>
+          </label>
+          <label><input type="checkbox" name="instakill">Voidwaker Handguards AF3 (Instakill below 10% HP)</label>
+        </fieldset>
+        <fieldset>
+          <legend>Assist Skills</legend>
+          <dl>
+            <dt>Powerful (Damage Increase)</dt>
+            <dd>
+              <label class="none"><input type="radio" name="powerful" value="0" checked>none</label>
+              <label class="purple"><input type="radio" name="powerful" value="6">6%</label>
+              <label class="yellow"><input type="radio" name="powerful" value="7.5">7.5%</label>
+              <label class="red"><input type="radio" name="powerful" value="10">10%</label>
+            </dd>
+            <dt>Raid (Gary; Damage +, CD -)</dt>
+            <dd class="gary">
+              <label class="none"><input type="radio" name="raid" value="none" checked><div>none</div></label>
+              <label class="purple"><input type="radio" name="raid" value="excellent"><div>6%<br>10%</div></label>
+              <label class="yellow"><input type="radio" name="raid" value="epic"><div>7.5%<br>15%</div></label>
+              <label class="red"><input type="radio" name="raid" value="legend"><div>10%<br>20%</div></label>
+            </dd>
+          </dl>
+          <label>Survivor Skill Level: 5x<input type="number" name="skillLv" min="0" max="10" style="width:2em;"></label>
+          <ul>
+            <li>Clan Expedition / Path of Trials: Always <span class="bold">10</span></li>
+            <li>Extreme Challenge: Always <span class="bold">0</span></li>
+          </ul>
+        </fieldset>
+        <fieldset>
+          <legend>Deploying Skills</legend>
+          <dl>
+            <dt>United Stand (Inherited ATK)</dt>
+            <dd>
+              <label class="none"><input type="radio" name="stand" value="0" checked>none</label>
+              <label></label>
+              <label class="yellow"><input type="radio" name="stand" value="15">15%</label>
+              <label class="red"><input type="radio" name="stand" value="35">35%</label>
+            </dd>
+            <dt>Battle Lust (CD Reduction)</dt>
+            <dd>
+              <label class="none"><input type="radio" name="lust" value="0" checked>none</label>
+              <label class="purple"><input type="radio" name="lust" value="15">15%</label>
+              <label class="yellow"><input type="radio" name="lust" value="20">20%</label>
+              <label class="red"><input type="radio" name="lust" value="30">30%</label>
+            </dd>
+            <dt>Sharp Claws (Skill Damage Up)</dt>
+            <dd>
+              <label class="none"><input type="radio" name="claws" value="0" checked>none</label>
+              <label class="purple"><input type="radio" name="claws" value="15">15%</label>
+              <label class="yellow"><input type="radio" name="claws" value="20">20%</label>
+              <label class="red"><input type="radio" name="claws" value="60">60%</label>
+            </dd>
+            <dt>Frenzy (Crit Rate Up)</dt>
+            <dd>
+              <label class="none"><input type="radio" name="frenzy" value="0" checked>none</label>
+              <label class="purple"><input type="radio" name="frenzy" value="15">15%</label>
+              <label class="yellow"><input type="radio" name="frenzy" value="20">20%</label>
+              <label class="red"><input type="radio" name="frenzy" value="60">60%</label>
+            </dd>
+            <dt>Painstrike (Crit Damage Up)</dt>
+            <dd>
+              <label class="none"><input type="radio" name="painstrike" value="0" checked>none</label>
+              <label></label>
+              <label></label>
+              <label class="red"><input type="radio" name="painstrike" value="60">60%</label>
+            </dd>
+            <dt>Crush (10x damage to enemies below 50% HP)</dt>
+            <dd>
+              <label class="none"><input type="radio" name="crush" value="0" checked>none</label>
+              <label></label>
+              <label></label>
+              <label class="red"><input type="radio" name="crush" value="5">5%</label>
+            </dd>
+          </dl>
+        </fieldset>
+      </fieldset>
+    </form>
+    <div class="wrapper">
+      <div id="result">
+      </div>
+    </div>
+  </div>
+  <script>
+    function calc() {
+      const FORM = document.form;
+
+      const obj = {};
+      const input = FORM.querySelectorAll('input');
+      Array.from(input).forEach(elm => {
+        if(elm.type === 'number') obj[elm.name] = Number(elm.value);
+        if(elm.type === 'radio' && elm.checked) obj[elm.name] = elm.value;
+        if(elm.type === 'checkbox') obj[elm.name] = elm.checked;
+      }
+      );
+      const select = FORM.querySelectorAll('select');
+      Array.from(select).forEach(elm => obj[elm.name] = elm.value);
+
+      let petLv;
+      if(FORM.petLv.value === '') petLv = Number(FORM.petLv.placeholder);
+      else petLv = obj.petLv.value;
+
+      const awakenUpgrade = {
+        yellow1:{cd:20, damage:0},
+        yellow3:{cd:35, damage:0},
+        yellow5:{cd:35, damage:40},
+        red2:{cd:35, damage:40},
+        red5:{cd:50, damage:90}
+      }
+
+      const inheritance = {
+        legend:{percentage:60, baseAtk:725, lvAtk:180, baseHP:3700, lvHP:900},
+        epic3:{percentage:56, baseAtk:665, lvAtk:165, baseHP:3400, lvHP:825},
+        epic2:{percentage:54, baseAtk:605, lvAtk:150, baseHP:3100, lvHP:750},
+        epic1:{percentage:52, baseAtk:545, lvAtk:135, baseHP:2800, lvHP:675},
+        epic:{percentage:50, baseAtk:485, lvAtk:120, baseHP:2500, lvHP:600}
+      }
+
+      const raid = {
+        none:{cd:0, damage:0},
+        excellent:{cd:10, damage:6},
+        epic:{cd:15, damage:7.5},
+        legend:{cd:20, damage:10}
+      }
+      const petAtk = Math.trunc(obj.survivorAtk * (inheritance[obj.quality].percentage + Number(obj.stand))/100) + inheritance[obj.quality].baseAtk + inheritance[obj.quality].lvAtk * petLv;
+      
+      const deployDamage = Number(obj.claws) + awakenUpgrade[obj.awaken].damage;
+      const assistDamage = Number(obj.powerful) + raid[obj.raid].damage;
+      const skillDamageMultiplier = [];
+      for(let i=0; i<11; i++){
+        skillDamageMultiplier.push(100 + deployDamage + assistDamage * i);
+      }
+      let cd = (100 - awakenUpgrade[obj.awaken].cd)/100 * (100 - Number(obj.lust))/100 * (100 - raid[obj.raid].cd)/100;
+      if(cd < 0.5) cd = 0.5;
+      const critDamageMultiplier = 200 + Number(obj.painstrike);
+      const critRate = Number(obj.frenzy);
+
+      const baseDamage = [],
+        critDamage = [],
+        expectation = [],
+        expectationCrush = [],
+        dps = [];
+      for(let i=0; i<11; i++) {
+        baseDamage.push(Math.trunc(petAtk * 216 * skillDamageMultiplier[i]/100));
+        critDamage.push(Math.trunc(baseDamage[i] * critDamageMultiplier/100));
+        expectation.push(baseDamage[i] * (100 - critRate)/100 + critDamage[i] * critRate/100);
+        expectationCrush.push(baseDamage[i] * 10 * Number(obj.crush)/100 + baseDamage[i] * (100 - Number(obj.crush) - critRate)/100 + critDamage[i] * critRate/100);
+        if(obj.crush === '0') dps.push(expectation[i] * 4 / (1.2 * cd));
+        if(!obj.instakill && obj.crush !== '0') dps.push((expectation[i] * 0.5 + expectationCrush[i] * 0.5) * 4 / (1.2 * cd));
+        if(obj.instakill && obj.crush !== '0') dps.push((expectation[i] * 0.5 + expectationCrush[i] * 0.4) * 4 / (1.2 * cd))
+      }
+
+      const result = document.getElementById('result');
+      result.innerHTML = '';
+
+      const dl = document.createElement('dl');
+
+      const dt = [];
+      const dd = [];
+      for(let i=0; i<8; i++){
+        dt[i] = document.createElement('dt');
+        dd[i] = document.createElement('dd');
+        dl.append(dt[i],dd[i]);
+      }
+      dt[0].textContent = 'DPS';
+      dd[0].textContent = Math.trunc(dps[obj.skillLv]).toLocaleString() + '/s';
+      dt[1].textContent = 'Damage';
+      dd[1].textContent = `${baseDamage[obj.skillLv].toLocaleString()} / Crit: ${critDamage[obj.skillLv].toLocaleString()}`;
+      dt[2].textContent = 'Pet Atk';
+      dd[2].textContent = petAtk.toLocaleString();
+      dt[3].textContent = 'Skill Damage';
+      dd[3].textContent = `${Math.round(skillDamageMultiplier[obj.skillLv]*100 * 216)/10000} (${skillDamageMultiplier[obj.skillLv]}%)`;
+      dt[4].textContent = 'Crit Rate';
+      dd[4].textContent = critRate + '%';
+      dt[5].textContent = 'Crit Damage';
+      dd[5].textContent = critDamageMultiplier + '%';
+      dt[6].textContent = 'Skill CD';
+      dd[6].textContent = `${Math.round(1.2 * cd * 10000)/10000}s (${Math.round(cd*10000)/100}%)`;
+      result.append(dl);
+
+    }
+    function changePetLvPh() {
+      const quality = document.form.quality.value;
+      const input = document.form.petLv;
+      if (quality === 'legend') input.placeholder = '110';
+      if (quality === 'epic3') input.placeholder = '100';
+      if (quality === 'epic2') input.placeholder = '90';
+      if (quality === 'epic1') input.placeholder = '80';
+      if (quality === 'epic') input.placeholder = '70';
+    }
+    document.form.quality.addEventListener('change',changePetLvPh);
+    document.form.addEventListener('input',calc);
+  </script>
+</body>
+</html>
