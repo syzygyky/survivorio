@@ -231,11 +231,10 @@
       }
       const petAtk = Math.trunc(obj.survivorAtk * (inheritance[obj.quality].percentage + Number(obj.stand))/100) + inheritance[obj.quality].baseAtk + inheritance[obj.quality].lvAtk * petLv;
       
-      const deployDamage = Number(obj.claws) + awakenUpgrade[obj.awaken].damage;
       const assistDamage = Number(obj.powerful) + raid[obj.raid].damage;
       const skillDamageMultiplier = [];
       for(let i=0; i<11; i++){
-        skillDamageMultiplier.push(100 + deployDamage + assistDamage * i);
+        skillDamageMultiplier.push(100 + Number(obj.claws) + assistDamage * i);
       }
       let cd = (100 - awakenUpgrade[obj.awaken].cd)/100 * (100 - Number(obj.lust))/100 * (100 - raid[obj.raid].cd)/100;
       if(cd < 0.5) cd = 0.5;
@@ -248,7 +247,7 @@
         expectationCrush = [],
         dps = [];
       for(let i=0; i<11; i++) {
-        baseDamage.push(Math.trunc(petAtk * 216 * skillDamageMultiplier[i]/100));
+        baseDamage.push(Math.trunc(petAtk * 215.5 * skillDamageMultiplier[i]/100 * (100 + awakenUpgrade[obj.awaken].damage)/100));
         critDamage.push(Math.trunc(baseDamage[i] * critDamageMultiplier/100));
         expectation.push(baseDamage[i] * (100 - critRate)/100 + critDamage[i] * critRate/100);
         expectationCrush.push(baseDamage[i] * 10 * Number(obj.crush)/100 + baseDamage[i] * (100 - Number(obj.crush) - critRate)/100 + critDamage[i] * critRate/100);
@@ -276,7 +275,7 @@
       dt[2].textContent = 'Pet Atk';
       dd[2].textContent = petAtk.toLocaleString();
       dt[3].textContent = 'Skill Damage';
-      dd[3].textContent = `${Math.round(skillDamageMultiplier[obj.skillLv]*100 * 216)/10000} (${skillDamageMultiplier[obj.skillLv]}%)`;
+      dd[3].textContent = `${Math.round(skillDamageMultiplier[obj.skillLv]*100 * 215.5)/10000} (${skillDamageMultiplier[obj.skillLv]}%)`;
       dt[4].textContent = 'Crit Rate';
       dd[4].textContent = critRate + '%';
       dt[5].textContent = 'Crit Damage';
