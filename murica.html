@@ -70,7 +70,6 @@
       margin-left: 20px;
       margin-bottom: 10px;
     }
-
     div#result dd {
       width: 70%;
       font-weight: bold;
@@ -208,7 +207,6 @@
       let petLv;
       if(FORM.petLv.value === '') petLv = Number(FORM.petLv.placeholder);
       else petLv = obj.petLv;
-
       const awakenUpgrade = {
         yellow1:{cd:20, damage:0},
         yellow3:{cd:35, damage:0},
@@ -242,7 +240,7 @@
       let cd = (100 - awakenUpgrade[obj.awaken].cd)/100 * (100 - Number(obj.lust))/100 * (100 - raid[obj.raid].cd)/100;
       if(cd < 0.5) cd = 0.5;
       const critDamageMultiplier = 200 + Number(obj.painstrike);
-      const critRate = Number(obj.frenzy);
+      const critRate = (100 - Number(obj.crush))/100 * Number(obj.frenzy);
 
       const baseDamage = [],
         critDamage = [],
