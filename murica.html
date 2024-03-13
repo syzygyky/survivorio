@@ -240,12 +240,12 @@
       if(cd < 0.5) cd = 0.5;
       const critDamageMultiplier = 200 + Number(obj.painstrike);
       const critRate = (100 - Number(obj.crush))/100 * Number(obj.frenzy);
-
       const baseDamage = [],
         critDamage = [],
         expectation = [],
         expectationCrush = [],
-        dps = [];
+        dps = [],
+        dpsHalf = [];
       for(let i=0; i<11; i++) {
         baseDamage.push(Math.trunc(petAtk * 215.5 * skillDamageMultiplier[i]/100 * (100 + awakenUpgrade[obj.awaken].damage)/100));
         critDamage.push(Math.trunc(baseDamage[i] * critDamageMultiplier/100));
@@ -253,7 +253,8 @@
         expectationCrush.push(baseDamage[i] * 10 * Number(obj.crush)/100 + baseDamage[i] * (100 - Number(obj.crush) - critRate)/100 + critDamage[i] * critRate/100);
         if(obj.crush === '0') dps.push(expectation[i] * 4 / (1.2 * cd));
         if(!obj.instakill && obj.crush !== '0') dps.push((expectation[i] * 0.5 + expectationCrush[i] * 0.5) * 4 / (1.2 * cd));
-        if(obj.instakill && obj.crush !== '0') dps.push((expectation[i] * 0.5 + expectationCrush[i] * 0.4) * 4 / (1.2 * cd))
+        if(obj.instakill && obj.crush !== '0') dps.push((expectation[i] * 0.5 + expectationCrush[i] * 0.4) * 4 / (1.2 * cd));
+        dpsHalf.push(expectationCrush[i] * 4 / (1.2 * cd));
       }
 
       const result = document.getElementById('result');
@@ -282,6 +283,8 @@
       dd[5].textContent = critDamageMultiplier + '%';
       dt[6].textContent = 'Skill CD';
       dd[6].textContent = `${Math.round(1.2 * cd * 10000)/10000}s (${Math.round(cd*10000)/100}%)`;
+      dt[7].textContent = `DPS (Below 50% HP)`;
+      dd[7].textContent = Math.trunc(dpsHalf[obj.skillLv]).toLocaleString() + '/s';
       result.append(dl);
 
     }
