@@ -6,8 +6,16 @@
   <link rel="stylesheet" href="./css/dark.css">
   <title>Murica Simulator - Survivor.io</title>
   <style>
+    .container {
+      position: relative;
+    }
     h1 {
       font-size: 18px;
+    }
+    select#language {
+      position: absolute;
+      top: 48px;
+      right: 10px;
     }
     input[type="number"] {
       text-align: right;
@@ -20,6 +28,10 @@
     }
     input[type="radio"] {
       margin-top: 0;
+    }
+    dl {
+      margin-top: 0;
+      margin-bottom: 0;
     }
     dt {
       margin-top: 4px;
@@ -61,6 +73,7 @@
       top: 8px;
       background-color: #222;
       min-height: 32px;
+      z-index: 2;
     }
     dl#result {
       display: flex;
@@ -100,32 +113,36 @@
       <details>
         <summary></summary>
       <dl id="result">
-        <dt>DPS</dt>
+        <dt class="dps">DPS</dt>
         <dd></dd>
-        <dt>Damage</dt>
+        <dt class="damage">Non Crit-Hit Damage</dt>
         <dd></dd>
-        <dt>Crit Damage</dt>
+        <dt class="critDamage">Crit Damage</dt>
         <dd></dd>
-        <dt>Crit Rate</dt>
+        <dt class="critRate">Crit Rate</dt>
         <dd></dd>
-        <dt>Pet ATK</dt>
+        <dt class="petAtk">Pet ATK</dt>
         <dd></dd>
-        <dt>Skill Damage</dt>
+        <dt class="skillDamage">Skill Damage</dt>
         <dd></dd>
-        <dt>Skill CD</dt>
+        <dt class="skillCD">Skill CD</dt>
         <dd></dd>
       </dl>
       </details>
     </div>
     <h1>Murica Simulator (beta)</h1>
+    <select id="language">
+      <option value="en">en</option>
+      <option value="ja">ja</option>
+    </select>
     <form name="form">
       <fieldset>
         <fieldset>
-          <legend>Stat</legend>
-          <label>Survivor ATK: <input type="number" name="survivorAtk" style="width:6em;" min="0"></label>
+          <legend><span class="stats">Stats</span></legend>
+          <label><span class="survivorAtk">Survivor ATK</span>: <input type="number" name="survivorAtk" style="width:6em;" min="0"></label>
            / 
           <label>
-            Pet Quality:
+           <span class="petQuality">Pet Quality</span>
             <select name="quality">
               <option value="legend">Legend</option>
               <option value="epic3">Epic +3</option>
@@ -134,8 +151,8 @@
               <option value="epic">Epic</option>
             </select>
           </label>
-          <label>Pet Lv: <input type="number" name="petLv" style="width:4em;" placeholder="110" min="0"></label>
-          <label>Awakening Level:
+          <label><span class="petLv">Pet Lv</span>: <input type="number" name="petLv" style="width:4em;" placeholder="110" min="0"></label>
+          <label><span class="awakeningLv">Awakening Level</span>:
             <select name="awaken">
               <option value="yellow1">☆1+</option>
               <option value="yellow3">☆3+</option>
@@ -150,16 +167,16 @@
           -->
         </fieldset>
         <fieldset>
-          <legend>Assist Skills</legend>
+          <legend><span class="assistSkills">Assist Skills</span></legend>
           <dl>
-            <dt>Powerful (Damage Increase)</dt>
+            <dt class="powerful">Powerful (Damage Increase)</dt>
             <dd>
               <label class="none"><input type="radio" name="powerful" value="0" checked>none</label>
               <label class="purple"><input type="radio" name="powerful" value="6">6%</label>
               <label class="yellow"><input type="radio" name="powerful" value="7.5">7.5%</label>
               <label class="red"><input type="radio" name="powerful" value="10">10%</label>
             </dd>
-            <dt>Raid (Gary; Damage +, CD -)</dt>
+            <dt class="raid">Raid (Gary; Damage +, CD -)</dt>
             <dd class="gary">
               <label class="none"><input type="radio" name="raid" value="none" checked><div>none</div></label>
               <label class="purple"><input type="radio" name="raid" value="excellent"><div>6%<br>10%</div></label>
@@ -167,51 +184,51 @@
               <label class="red"><input type="radio" name="raid" value="legend"><div>10%<br>20%</div></label>
             </dd>
           </dl>
-          <label>Survivor Skill Level: 5x<input type="number" name="skillLv" min="0" max="10" style="width:2em;"></label>
+          <label><span class="survivorSkillLv">Survivor Skill Level</span>: 5x<input type="number" name="skillLv" min="0" max="10" style="width:2em;"></label>
           <ul>
-            <li>Clan Expedition / Path of Trials: Always <span class="bold">10</span></li>
-            <li>Extreme Challenge: Always <span class="bold">0</span></li>
+            <li><span class="cePot">Clan Expedition / Path of Trials: Always</span> <span class="bold">10</span></li>
+            <li><span class="extremeChallenge">Extreme Challenge: Always</span> <span class="bold">0</span></li>
           </ul>
         </fieldset>
         <fieldset>
-          <legend>Deploying Skills</legend>
+          <legend><span class="deployingSkills">Deploying Skills</span></legend>
           <dl>
-            <dt>United Stand (Inherited ATK)</dt>
+            <dt class="unitedStand">United Stand (Inherited ATK)</dt>
             <dd>
               <label class="none"><input type="radio" name="stand" value="0" checked>none</label>
               <label></label>
               <label class="yellow"><input type="radio" name="stand" value="15">15%</label>
               <label class="red"><input type="radio" name="stand" value="35">35%</label>
             </dd>
-            <dt>Battle Lust (CD Reduction)</dt>
+            <dt class="battleLust">Battle Lust (CD Reduction)</dt>
             <dd>
               <label class="none"><input type="radio" name="lust" value="0" checked>none</label>
               <label class="purple"><input type="radio" name="lust" value="15">15%</label>
               <label class="yellow"><input type="radio" name="lust" value="20">20%</label>
               <label class="red"><input type="radio" name="lust" value="30">30%</label>
             </dd>
-            <dt>Sharp Claws (Skill Damage Up)</dt>
+            <dt class="sharpClaws">Sharp Claws (Skill Damage Up)</dt>
             <dd>
               <label class="none"><input type="radio" name="claws" value="0" checked>none</label>
               <label class="purple"><input type="radio" name="claws" value="15">15%</label>
               <label class="yellow"><input type="radio" name="claws" value="20">20%</label>
               <label class="red"><input type="radio" name="claws" value="60">60%</label>
             </dd>
-            <dt>Frenzy (Crit Rate Up)</dt>
+            <dt class="frenzy">Frenzy (Crit Rate Up)</dt>
             <dd>
               <label class="none"><input type="radio" name="frenzy" value="0" checked>none</label>
               <label class="purple"><input type="radio" name="frenzy" value="15">15%</label>
               <label class="yellow"><input type="radio" name="frenzy" value="20">20%</label>
               <label class="red"><input type="radio" name="frenzy" value="60">60%</label>
             </dd>
-            <dt>Painstrike (Crit Damage Up)</dt>
+            <dt class="painstrike">Painstrike (Crit Damage Up)</dt>
             <dd>
               <label class="none"><input type="radio" name="painstrike" value="0" checked>none</label>
               <label></label>
               <label></label>
               <label class="red"><input type="radio" name="painstrike" value="60">60%</label>
             </dd>
-            <dt>Crush (x% chance to 10x damage)</dt>
+            <dt class="crush">Crush (x% chance to 10x damage)</dt>
             <dd>
               <label class="none"><input type="radio" name="crush" value="0" checked>none</label>
               <label></label>
@@ -230,7 +247,11 @@
       const obj = {};
       const input = FORM.querySelectorAll('input');
       Array.from(input).forEach(elm => {
-        if(elm.type === 'number') obj[elm.name] = Number(elm.value);
+        if(elm.type === 'number') {
+          if(elm.max && Number(elm.value) > Number(elm.max)) elm.value = elm.max;
+          if(elm.min && Number(elm.value) < Number(elm.min)) elm.value = elm.min;
+          obj[elm.name] = Number(elm.value);
+        }
         if(elm.type === 'radio' && elm.checked) obj[elm.name] = elm.value;
         if(elm.type === 'checkbox') obj[elm.name] = elm.checked;
       }
@@ -268,7 +289,7 @@
       const assistDamage = Number(obj.powerful) + raid[obj.raid].damage;
       const skillDamageMultiplier = [];
       for(let i=0; i<11; i++){
-        skillDamageMultiplier.push(100 + Number(obj.claws) + assistDamage * i);
+        skillDamageMultiplier.push((100 + Number(obj.claws) + assistDamage * i) * (100 + awakenUpgrade[obj.awaken].damage)/100);
       }
       let cd = (100 - awakenUpgrade[obj.awaken].cd)/100 * (100 - Number(obj.lust))/100 * (100 - raid[obj.raid].cd)/100;
       if(cd < 0.5) cd = 0.5;
@@ -281,7 +302,7 @@
         dps = [];
       // const dpsHalf = [];
       for(let i=0; i<11; i++) {
-        baseDamage.push(Math.trunc(petAtk * 216 * skillDamageMultiplier[i]/100 * (100 + awakenUpgrade[obj.awaken].damage)/100));
+        baseDamage.push(Math.trunc(petAtk * 216 * skillDamageMultiplier[i]/100));
         critDamage.push(Math.trunc(baseDamage[i] * critDamageMultiplier/100));
         expectation.push(baseDamage[i] * 10 * Number(obj.crush)/100 + baseDamage[i] * (100 - Number(obj.crush) - critRate)/100 + critDamage[i] * critRate/100);
         dps.push(expectation[i] *4 / (1.2 * cd));
@@ -325,8 +346,11 @@
       if (quality === 'epic1') input.placeholder = '80';
       if (quality === 'epic') input.placeholder = '70';
     }
+
+
     document.form.quality.addEventListener('change',changePetLvPh);
     document.form.addEventListener('input',calc);
   </script>
+  <script src="language.js"></script>
 </body>
 </html>
