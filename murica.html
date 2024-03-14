@@ -54,33 +54,69 @@
       background-color: #ff4262;
       color: #eee;
     }
-    div#result {
-      border: solid 1px #ccc;
+    div.wrapper {
       width: 98%;
+      border: solid 1px #ccc;
+      position: sticky;
+      top: 8px;
+      background-color: #222;
+      min-height: 32px;
     }
-    div#result dl {
+    dl#result {
       display: flex;
       flex-wrap: wrap;
       width: 100%;
       align-items: center;
-
+      margin-top: 4px;
+      margin-bottom: 4px;
     }
-    div#result dt {
+    dl#result dt {
       width: 20%;
       margin-left: 20px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
-    div#result dd {
+    dl#result dd {
       width: 70%;
       font-weight: bold;
     }
     .bold {
       font-weight: bold;
     }
+    .wrapper summary {
+      margin-top: 4px;
+      margin-left: 10px;
+    }
+    .wrapper summary::before {
+      content: 'DPS';
+    }
+    .wrapper details[open] summary::before {
+      content: 'Hide';
+    }
   </style>
 </head>
 <body>
   <div class="container">
+    <div class="wrapper">
+      <details>
+        <summary></summary>
+      <dl id="result">
+        <dt>DPS</dt>
+        <dd></dd>
+        <dt>Damage</dt>
+        <dd></dd>
+        <dt>Crit Damage</dt>
+        <dd></dd>
+        <dt>Crit Rate</dt>
+        <dd></dd>
+        <dt>Pet ATK</dt>
+        <dd></dd>
+        <dt>Skill Damage</dt>
+        <dd></dd>
+        <dt>Skill CD</dt>
+        <dd></dd>
+      </dl>
+      </details>
+    </div>
     <h1>Murica Simulator (beta)</h1>
     <form name="form">
       <fieldset>
@@ -108,8 +144,10 @@
               <option value="red5">★5</option>
             </select>
           </label>
+          <!--
           <label><input type="checkbox" name="instakill"><span>Voidwaker Handguards AF3</span></label>
           <span style="font-size:12px;">(Instakill below 10% HP)</span>
+          -->
         </fieldset>
         <fieldset>
           <legend>Assist Skills</legend>
@@ -173,7 +211,7 @@
               <label></label>
               <label class="red"><input type="radio" name="painstrike" value="60">60%</label>
             </dd>
-            <dt>Crush (10x damage to enemies below 50% HP)</dt>
+            <dt>Crush (x% chance to 10x damage)</dt>
             <dd>
               <label class="none"><input type="radio" name="crush" value="0" checked>none</label>
               <label></label>
@@ -184,10 +222,6 @@
         </fieldset>
       </fieldset>
     </form>
-    <div class="wrapper">
-      <div id="result">
-      </div>
-    </div>
   </div>
   <script>
     function calc() {
@@ -244,48 +278,42 @@
         critDamage = [],
         expectation = [],
         expectationCrush = [],
-        dps = [],
-        dpsHalf = [];
+        dps = [];
+      // const dpsHalf = [];
       for(let i=0; i<11; i++) {
         baseDamage.push(Math.trunc(petAtk * 216 * skillDamageMultiplier[i]/100 * (100 + awakenUpgrade[obj.awaken].damage)/100));
         critDamage.push(Math.trunc(baseDamage[i] * critDamageMultiplier/100));
+        expectation.push(baseDamage[i] * 10 * Number(obj.crush)/100 + baseDamage[i] * (100 - Number(obj.crush) - critRate)/100 + critDamage[i] * critRate/100);
+        dps.push(expectation[i] *4 / (1.2 * cd));
+        /*
         expectation.push(baseDamage[i] * (100 - critRate)/100 + critDamage[i] * critRate/100);
         expectationCrush.push(baseDamage[i] * 10 * Number(obj.crush)/100 + baseDamage[i] * (100 - Number(obj.crush) - critRate)/100 + critDamage[i] * critRate/100);
         if(obj.crush === '0') dps.push(expectation[i] * 4 / (1.2 * cd));
         if(!obj.instakill && obj.crush !== '0') dps.push((expectation[i] * 0.5 + expectationCrush[i] * 0.5) * 4 / (1.2 * cd));
         if(obj.instakill && obj.crush !== '0') dps.push((expectation[i] * 0.5 + expectationCrush[i] * 0.4) * 4 / (1.2 * cd));
         dpsHalf.push(expectationCrush[i] * 4 / (1.2 * cd));
+        */
       }
 
       const result = document.getElementById('result');
-      result.innerHTML = '';
+      const dd = result.querySelectorAll('dd');
 
-      const dl = document.createElement('dl');
-
-      const dt = [];
-      const dd = [];
-      for(let i=0; i<8; i++){
-        dt[i] = document.createElement('dt');
-        dd[i] = document.createElement('dd');
-        dl.append(dt[i],dd[i]);
-      }
-      dt[0].textContent = 'DPS';
+      // DPS
       dd[0].textContent = Math.trunc(dps[obj.skillLv]).toLocaleString() + '/s';
-      dt[1].textContent = 'Damage';
-      dd[1].textContent = `${baseDamage[obj.skillLv].toLocaleString()} / Crit: ${critDamage[obj.skillLv].toLocaleString()}`;
-      dt[2].textContent = 'Pet Atk';
-      dd[2].textContent = petAtk.toLocaleString();
-      dt[3].textContent = 'Skill Damage';
-      dd[3].textContent = `${Math.round(skillDamageMultiplier[obj.skillLv]*100 * 216)/10000} (${skillDamageMultiplier[obj.skillLv]}%)`;
-      dt[4].textContent = 'Crit Rate';
-      dd[4].textContent = critRate + '%';
-      dt[5].textContent = 'Crit Damage';
-      dd[5].textContent = critDamageMultiplier + '%';
-      dt[6].textContent = 'Skill CD';
+      // Damage
+      dd[1].textContent = `${baseDamage[obj.skillLv].toLocaleString()}`;
+      // Crit Damage
+      dd[2].textContent = `${critDamage[obj.skillLv].toLocaleString()} (${critDamageMultiplier}%)`;
+      // Crit Rate
+      dd[3].textContent = critRate + '%';
+      // Pet ATK
+      dd[4].textContent = petAtk.toLocaleString();
+      // Skill Damage
+      dd[5].textContent = `${Math.round(skillDamageMultiplier[obj.skillLv]*100 * 216)/10000} (${skillDamageMultiplier[obj.skillLv]}%)`;
+      // Skill CD
       dd[6].textContent = `${Math.round(1.2 * cd * 10000)/10000}s (${Math.round(cd*10000)/100}%)`;
-      dt[7].textContent = `DPS (Below 50% HP)`;
-      dd[7].textContent = Math.trunc(dpsHalf[obj.skillLv]).toLocaleString() + '/s';
-      result.append(dl);
+      // DPS (Below 50% HP)
+      // dd[7].textContent = Math.trunc(dpsHalf[obj.skillLv]).toLocaleString() + '/s';
 
     }
     function changePetLvPh() {
