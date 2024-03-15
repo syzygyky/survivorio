@@ -1,0 +1,127 @@
+.container {
+  position: relative;
+}
+h1 {
+  font-size: 18px;
+}
+select#language {
+  position: absolute;
+  top: 48px;
+  right: 10px;
+}
+input[type="number"] {
+  text-align: right;
+  -moz-appearance: textfield;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="radio"] {
+  margin-top: 0;
+}
+dl {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+dt {
+  margin-top: 4px;
+}
+dd {
+  margin-left: 8px;
+}
+dd label {
+  display: inline-flex;
+  width: 60px;
+  min-height: 24px;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 4px;
+}
+dd.gary div {
+  text-align: right;
+}
+.none {
+  background-color: #888;
+  color: #fff;
+}
+.purple {
+  background-color: #c726ff;
+  color: #eee;
+}
+.yellow {
+  background-color: #ffdd00;
+  color: #000;
+}
+.red {
+  background-color: #ff4262;
+  color: #eee;
+}
+div.wrapper {
+  width: 98%;
+  border: solid 1px #ccc;
+  position: sticky;
+  top: 8px;
+  background-color: #222;
+  min-height: 32px;
+  z-index: 2;
+}
+dl#result {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  align-items: center;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+dl#result dt {
+  width: 20%;
+  margin-left: 20px;
+  margin-bottom: 8px;
+}
+dl#result dd {
+  width: 70%;
+  font-weight: bold;
+}
+.bold {
+  font-weight: bold;
+}
+.wrapper summary {
+  margin-top: 4px;
+  margin-left: 10px;
+}
+.wrapper summary::before {
+  content: 'DPS';
+}
+.wrapper details[open] summary::before {
+  content: 'Hide';
+}
+button.help {
+  background-color: #88c;
+  color: #000;
+  border: outset 1px #222;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+}
+button.help:hover {
+  cursor: pointer;
+}
+button.help::before {
+  content: '?';
+}
+dialog {
+  width: 60%;
+}
+dialog dt {
+  font-size: 14px;
+  font-weight: bold;
+}
+dialog dd {
+  margin-left: 20px;
+  font-size: 12px;
+}
+.footer {
+  margin-left: 8px;
+}
