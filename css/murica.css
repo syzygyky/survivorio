@@ -76,12 +76,12 @@ dl#result {
   margin-bottom: 4px;
 }
 dl#result dt {
-  width: 20%;
+  width: 30%;
   margin-left: 20px;
   margin-bottom: 8px;
 }
 dl#result dd {
-  width: 70%;
+  width: 60%;
   font-weight: bold;
 }
 .bold {
