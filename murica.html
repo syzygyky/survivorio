@@ -4,118 +4,116 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link rel="stylesheet" href="./css/dark.css">
+  <link rel="stylesheet" href="./css/murica.css">
   <title>Murica Simulator - Survivor.io</title>
-  <style>
-    .container {
-      position: relative;
-    }
-    h1 {
-      font-size: 18px;
-    }
-    select#language {
-      position: absolute;
-      top: 48px;
-      right: 10px;
-    }
-    input[type="number"] {
-      text-align: right;
-      -moz-appearance: textfield;
-    }
-    input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-    input[type="radio"] {
-      margin-top: 0;
-    }
-    dl {
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-    dt {
-      margin-top: 4px;
-    }
-    dd {
-      margin-left: 8px;
-    }
-    dd label {
-      display: inline-flex;
-      width: 60px;
-      min-height: 24px;
-      align-items: center;
-      justify-content: space-between;
-      padding-right: 4px;
-    }
-    dd.gary div {
-      text-align: right;
-    }
-    .none {
-      background-color: #888;
-      color: #fff;
-    }
-    .purple {
-      background-color: #c726ff;
-      color: #eee;
-    }
-    .yellow {
-      background-color: #ffdd00;
-      color: #000;
-    }
-    .red {
-      background-color: #ff4262;
-      color: #eee;
-    }
-    div.wrapper {
-      width: 98%;
-      border: solid 1px #ccc;
-      position: sticky;
-      top: 8px;
-      background-color: #222;
-      min-height: 32px;
-      z-index: 2;
-    }
-    dl#result {
-      display: flex;
-      flex-wrap: wrap;
-      width: 100%;
-      align-items: center;
-      margin-top: 4px;
-      margin-bottom: 4px;
-    }
-    dl#result dt {
-      width: 20%;
-      margin-left: 20px;
-      margin-bottom: 8px;
-    }
-    dl#result dd {
-      width: 70%;
-      font-weight: bold;
-    }
-    .bold {
-      font-weight: bold;
-    }
-    .wrapper summary {
-      margin-top: 4px;
-      margin-left: 10px;
-    }
-    .wrapper summary::before {
-      content: 'DPS';
-    }
-    .wrapper details[open] summary::before {
-      content: 'Hide';
-    }
-  </style>
 </head>
 <body>
   <div class="container">
     <div class="wrapper">
       <details>
         <summary></summary>
+        <button type="button" class="help" onclick="modal.showModal()"></button>
+        <dialog id="modal">
+          <div class="modal-content" lang="en">
+            <dl>
+              <dt>Precautions</dt>
+              <dd>The calculation results do not take into account debuff effects.</dd>
+              <dd>DPS does not include damage from normal attacks (Dervish).</dd>
+              <dd>The time it takes for the enhancement from the same target hit to reach its maximum is not considered.</dd>
+              <dd>Actual damage may differ slightly due to rounding errors.</dd>
+              <dt>Tips</dt>
+              <dd>In Clan Expedition, damage cuts are applied every time a certain number of HP bars are reduced.</dd>
+              <dd>Presumably, in Exreme Challenge, there is no effect of increasing owner level of assist skills. CD reducing of Raid is not owner level dependent and therefore effective.</dd>
+              <dd>The debuff of Zone Operation 'Crit Damage Reduced' is supposedly not valid for pets. </dd>
+              <dt>Calculation Formulas</dt>
+              <dd>
+                <dl>
+                  <dt>Non-crit Hit Damage</dt>
+                  <dd>Skill Damage × ATK</dd>
+                  <dt>Crit Damage</dt>
+                  <dd>Non-crit Hit Damage × Crit Damage Multiplier</dd>
+                  <dt>Skill Damage (tentative)</dt>
+                  <dd>216 × ((Powerful% + Raid%) × Skill-lvl upgrades + Sharp Claws%) × (1 + damage up by each hit on the same target%)</dd>
+                  <dt>Crit Damage Multiplier</dt>
+                  <dd>2 + Painstrike%</dd>
+                  <dt>Crit Rate</dt>
+                  <dd>(1 - Crush%) × Frenzy%</dd>
+                  <dt>Pet ATK</dt>
+                  <dd>
+                    Owner ATK × (Inherited Rate% + United Stand%) + Base ATK of the quality + ATK/level × level
+                    <dl>
+                      <dt><span class="red">Legend</span></dt>
+                      <dd>Inherited: 60%, Base: 725, ATK/level: 180</dd>
+                      <dt><span class="yellow">Epic +3</span></dt>
+                      <dd>Inherited: 56%, Base: 665, ATK/level: 165</dd>
+                      <dt><span class="yellow">Epic +2</span></dt>
+                      <dd>Inherited: 54%, Base: 605, ATK/level: 150</dd>
+                      <dt><span class="yellow">Epic +1</span></dt>
+                      <dd>Inherited: 52%, Base: 545, ATK/level: 135</dd>
+                      <dt><span class="yellow">Epic</span></dt>
+                      <dd>Inherited: 50%, Base: 485, ATK/level: 120</dd>
+                    </dl>
+                  </dd>
+                  <dt>CD (lower limit 0.6sec)</dt>
+                  <dd>1.2 × (1 - CD reduction by each hit on the same target%) × (1 - Raid%) × (1 - Battle Lust%)</dd>
+                  <dd>e.g. Awakening☆☆☆(-35%), Excellent Raid(-10%)、Epic Battle Lust(-20%)<br>1.2 × 0.65 × 0.9 × 0.8 = 0.5616 (→ 0.6sec)</dd>
+                </dl>
+              </dd>
+            </dl>
+          </div>
+          <div class="modal-content" lang="ja" style="display: none">
+            <dl>
+              <dt>注意点</dt>
+              <dd>計算結果にデバフ効果は考慮されていません。</dd>
+              <dd>DPSに通常攻撃（小旋風）のダメージは含まれていません。</dd>
+              <dd>同一対象ヒットによる強化が最大に達するまでの時間は考慮されていません。</dd>
+              <dd>丸め誤差により実際のダメージと僅かに異なる場合があります。</dd>
+              </dd>
+              <dt>補足事項</dt>
+              <dd>遠征ではHPゲージを一定数削るごとにダメージカットが入ります。</dd>
+              <dd>恐らく、極限ではヘルパースキルのLv効果がありません。レイドの短縮はLv依存ではないため効果があります。</dd>
+              <dd>地域行動のデバフ「クリティカルダメージ減少」はペットには無効と思われます。</dd>
+              <dt>計算式</dt>
+              <dd>
+                <dl>
+                  <dt>通常ダメージ</dt>
+                  <dd>スキルダメージ × ATK</dd>
+                  <dt>クリティカルダメージ</dt>
+                  <dd>通常ダメージ × クリティカル倍率%</dd>
+                  <dt>スキルダメージ (仮)</dt>
+                  <dd>216 × ((強力% + レイド%) × スキルLv強化 + 鋭い爪%) × (1 + 同一ヒットのダメージアップ%)</dd>
+                  <dt>クリティカル倍率</dt>
+                  <dd>2 + ペインアタック%</dd>
+                  <dt>クリティカル率</dt>
+                  <dd>(1 - 圧倒%) × 狂気%</dd>
+                  <dt>ペットATK</dt>
+                  <dd>
+                    主人ATK × (継承率% + 敵愾心%) + 品質基本値 + 品質上昇値×Lv
+                    <dl>
+                      <dt><span class="red">Legend</span></dt>
+                      <dd>継承率60%、基本値725、上昇値180</dd>
+                      <dt><span class="yellow">Epic +3</span></dt>
+                      <dd>継承率56%、基本値665、上昇値165</dd>
+                      <dt><span class="yellow">Epic +2</span></dt>
+                      <dd>継承率54%、基本値605、上昇値150</dd>
+                      <dt><span class="yellow">Epic +1</span></dt>
+                      <dd>継承率52%、基本値545、上昇値135</dd>
+                      <dt><span class="yellow">Epic</span></dt>
+                      <dd>継承率50%、基本値485、上昇値120</dd>
+                    </dl>
+                  </dd>
+                  <dt>CD (下限0.6秒)</dt>
+                  <dd>1.2 × (1 - 同一ヒットのCD減%) × (1 - レイド%) × (1 - 闘争心%)</dd>
+                  <dd>(例) 覚醒☆☆☆(-35%)、レイド紫(-10%)、闘争心黄(-20%)の場合<br>1.2 × 0.65 × 0.9 × 0.8 = 0.5616 (→ 0.6秒)</dd>
+                </dl>
+              </dd>
+            </dl>
+          </div>
+        </dialog>
       <dl id="result">
         <dt class="dps">DPS</dt>
         <dd></dd>
-        <dt class="damage">Non Crit-Hit Damage</dt>
+        <dt class="damage">Non-crit Hit Damage</dt>
         <dd></dd>
         <dt class="critDamage">Crit Damage</dt>
         <dd></dd>
@@ -239,6 +237,9 @@
         </fieldset>
       </fieldset>
     </form>
+    <div class="footer">
+      <a href="./">back</a>
+    </div>
   </div>
   <script>
     function calc() {
@@ -346,6 +347,13 @@
       if (quality === 'epic1') input.placeholder = '80';
       if (quality === 'epic') input.placeholder = '70';
     }
+
+    const modal = document.getElementById('modal');
+    modal.addEventListener('click', (event) => {
+      if(event.target.closest('#modal-content') === null) {
+        modal.close();
+      }
+    });
 
 
     document.form.quality.addEventListener('change',changePetLvPh);
