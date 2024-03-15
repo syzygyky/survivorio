@@ -4,7 +4,7 @@ const languageTexts = {
     ja:'DPS'
   },
   damage:{
-    en:'Non Crit-Hit Damage',
+    en:'Non-crit Hit Damage',
     ja:'通常ダメージ'
   },
   critDamage:{
@@ -111,5 +111,13 @@ function translate () {
       }
     }
   }
+  const showByLangValue = document.querySelectorAll('[lang="' + lang + '"]');
+  const hideByLangValue = document.querySelectorAll('[lang]:not([lang="'+ lang + '"])');
+  Array.from(showByLangValue).forEach(elm => {
+    elm.style.display = '';
+  })
+  Array.from(hideByLangValue).forEach(elm => {
+    elm.style.display = 'none';
+  })
 }
 document.getElementById('language').addEventListener('change',translate);
