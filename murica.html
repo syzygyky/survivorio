@@ -17,15 +17,15 @@
           <div class="modal-content" lang="en">
             <dl>
               <dt>Precautions</dt>
-              <dd>The calculation results do not take into account debuff effects.</dd>
-              <dd>DPS does not include damage from normal attacks (Dervish).</dd>
-              <dd>The time it takes for the enhancement from the same target hit to reach its maximum is not considered.</dd>
-              <dd>Actual damage may differ slightly due to rounding errors.</dd>
+              <dd class="tips">The calculation results do not take into account debuff effects.</dd>
+              <dd class="tips">DPS does not include damage from normal attacks (Dervish).</dd>
+              <dd class="tips">The time it takes for the enhancement from the same target hit to reach its maximum is not considered.</dd>
+              <dd class="tips">Actual damage may differ slightly due to rounding errors.</dd>
               <dt>Tips</dt>
-              <dd>Crush is described in the text as enemies with below 50% HP, but in reality there is no HP determination and it is always triggered.</dd>
-              <dd>In Clan Expedition, damage cuts are applied every time a certain number of HP bars are reduced.</dd>
-              <dd>Presumably, in Exreme Challenge, there is no effect of increasing owner level of assist skills. CD reducing of Raid is not owner level dependent and therefore effective.</dd>
-              <dd>The debuff of Zone Operation 'Crit Damage Reduced' is supposedly not valid for pets. </dd>
+              <dd class="tips">Crush is described in the text as enemies with below 50% HP, but in reality there is no HP determination and it is always triggered.</dd>
+              <dd class="tips">In Clan Expedition, damage cuts are applied every time a certain number of HP bars are reduced.</dd>
+              <dd class="tips">Presumably, in Exreme Challenge, there is no effect of increasing owner level of assist skills. CD reducing of Raid is not owner level dependent and therefore effective.</dd>
+              <dd class="tips">The debuff of Zone Operation 'Crit Damage Reduced' is supposedly not valid for pets. </dd>
               <dt>Calculation Formulas</dt>
               <dd>
                 <dl>
@@ -41,7 +41,7 @@
                   <dd>(1 - Crush%) × Frenzy%</dd>
                   <dt>Pet ATK</dt>
                   <dd>
-                    Owner ATK × (Inherited Rate% + United Stand%) + Base ATK of the quality + ATK/level × level
+                    Owner ATK × (Inherited ATK% + United Stand%) + Base ATK of the quality + ATK/level × level
                     <dl>
                       <dt><span class="red">Legend</span></dt>
                       <dd>Inherited: 60%, Base: 725, ATK/level: 180</dd>
@@ -65,16 +65,15 @@
           <div class="modal-content" lang="ja" style="display: none">
             <dl>
               <dt>注意事項</dt>
-              <dd>計算結果にデバフ効果は考慮されていません。</dd>
-              <dd>DPSに通常攻撃（小旋風）のダメージは含まれていません。</dd>
-              <dd>同一対象ヒットによる強化が最大に達するまでの時間は考慮されていません。</dd>
-              <dd>丸め誤差により実際のダメージと僅かに異なる場合があります。</dd>
-              </dd>
+              <dd class="tips">計算結果にデバフ効果は考慮されていません。</dd>
+              <dd class="tips">DPSに通常攻撃（小旋風）のダメージは含まれていません。</dd>
+              <dd class="tips">同一対象ヒットによる強化が最大に達するまでの時間は考慮されていません。</dd>
+              <dd class="tips">丸め誤差により実際のダメージと僅かに異なる場合があります。</dd>
               <dt>補足事項</dt>
-              <dd>圧倒は説明文にはHPが50%の敵と書かれていますが、実際はHPの判定はなく、常時発動します。</dd>
-              <dd>遠征ではHPゲージを一定数削るごとにダメージカットが入ります。</dd>
-              <dd>恐らく、極限ではヘルパースキルのLv効果がありません。レイドの短縮はLv依存ではないため効果があります。</dd>
-              <dd>地域行動のデバフ「クリティカルダメージ減少」はペットには無効と思われます。</dd>
+              <dd class="tips">圧倒は説明文にはHPが50%以下の敵と書かれていますが、実際はHPの判定はなく、常時発動します。</dd>
+              <dd class="tips">遠征ではHPゲージを一定数削るごとにダメージカットが入ります。</dd>
+              <dd class="tips">恐らく、極限ではヘルパースキルのLv効果がありません。レイドの短縮はLv依存ではないため効果があります。</dd>
+              <dd class="tips">地域行動のデバフ「クリティカルダメージ減少」はペットには無効と思われます。</dd>
               <dt>計算式</dt>
               <dd>
                 <dl>
@@ -130,16 +129,16 @@
       </dl>
       </details>
     </div>
-    <h1>Murica Simulator (beta)</h1>
+    <h1><img src="./pic/murica_icon.png"> Murica Simulator (beta)</h1>
     <select id="language">
-      <option value="en">en</option>
-      <option value="ja">ja</option>
+      <option value="en">English</option>
+      <option value="ja">日本語</option>
     </select>
     <form name="form">
       <fieldset>
         <fieldset>
           <legend><span class="stats">Stats</span></legend>
-          <label><span class="survivorAtk">Survivor ATK</span>: <input type="number" name="survivorAtk" style="width:6em;" min="0"></label>
+          <label><span class="ownerAtk">Owner ATK</span>: <input type="number" name="ownerAtk" style="width:6em;" min="0"></label>
            / 
           <label>
            <span class="petQuality">Pet Quality</span>
@@ -169,14 +168,14 @@
         <fieldset>
           <legend><span class="assistSkills">Assist Skills</span></legend>
           <dl>
-            <dt class="powerful">Powerful (Damage Increase)</dt>
+            <dt><img src="./pic/assist_powerful.png"> <span class="powerful">Powerful (Damage Increase)</span></dt>
             <dd>
               <label class="none"><input type="radio" name="powerful" value="0" checked>none</label>
               <label class="purple"><input type="radio" name="powerful" value="6">6%</label>
               <label class="yellow"><input type="radio" name="powerful" value="7.5">7.5%</label>
               <label class="red"><input type="radio" name="powerful" value="10">10%</label>
             </dd>
-            <dt class="raid">Raid (Gary; Damage +, CD -)</dt>
+            <dt><img src="./pic/assist_raid.png"> <span class="raid">Raid (Gary; Damage +, CD -)</span></dt>
             <dd class="gary">
               <label class="none"><input type="radio" name="raid" value="none" checked><div>none</div></label>
               <label class="purple"><input type="radio" name="raid" value="excellent"><div>6%<br>10%</div></label>
@@ -184,7 +183,9 @@
               <label class="red"><input type="radio" name="raid" value="legend"><div>10%<br>20%</div></label>
             </dd>
           </dl>
-          <label><span class="survivorSkillLv">Survivor Skill Level</span>: 5x<input type="number" name="skillLv" min="0" max="10" style="width:2em;"></label>
+          <div style="margin-top: 12px;">
+            <label><span class="ownerSkillLv">Owner Skill Level</span>: 5x<input type="number" name="skillLv" min="0" max="10" style="width:2em;"></label>
+          </div>
           <ul>
             <li><span class="cePot">Clan Expedition / Path of Trials: Always</span> <span class="bold">10</span></li>
             <li><span class="extremeChallenge">Extreme Challenge: Always</span> <span class="bold">0</span></li>
@@ -193,42 +194,42 @@
         <fieldset>
           <legend><span class="deployingSkills">Deploying Skills</span></legend>
           <dl>
-            <dt class="unitedStand">United Stand (Inherited ATK)</dt>
+            <dt><img src="./pic/petskill_unitedstand.png"> <span class="unitedStand">United Stand (Inherited ATK)</span></dt>
             <dd>
               <label class="none"><input type="radio" name="stand" value="0" checked>none</label>
               <label></label>
               <label class="yellow"><input type="radio" name="stand" value="15">15%</label>
               <label class="red"><input type="radio" name="stand" value="35">35%</label>
             </dd>
-            <dt class="battleLust">Battle Lust (CD Reduction)</dt>
+            <dt><img src="./pic/petskill_battlelust.png"> <span class="battleLust">Battle Lust (CD Reduction)</span></dt>
             <dd>
               <label class="none"><input type="radio" name="lust" value="0" checked>none</label>
               <label class="purple"><input type="radio" name="lust" value="15">15%</label>
               <label class="yellow"><input type="radio" name="lust" value="20">20%</label>
               <label class="red"><input type="radio" name="lust" value="30">30%</label>
             </dd>
-            <dt class="sharpClaws">Sharp Claws (Skill Damage Up)</dt>
+            <dt><img src="./pic/petskill_sharpclaws.png"> <span class="sharpClaws">Sharp Claws (Skill Damage Up)</span></dt>
             <dd>
               <label class="none"><input type="radio" name="claws" value="0" checked>none</label>
               <label class="purple"><input type="radio" name="claws" value="15">15%</label>
               <label class="yellow"><input type="radio" name="claws" value="20">20%</label>
               <label class="red"><input type="radio" name="claws" value="60">60%</label>
             </dd>
-            <dt class="frenzy">Frenzy (Crit Rate Up)</dt>
+            <dt><img src="./pic/petskill_frenzy.png"> <span class="frenzy">Frenzy (Crit Rate Up)</span></dt>
             <dd>
               <label class="none"><input type="radio" name="frenzy" value="0" checked>none</label>
               <label class="purple"><input type="radio" name="frenzy" value="15">15%</label>
               <label class="yellow"><input type="radio" name="frenzy" value="20">20%</label>
               <label class="red"><input type="radio" name="frenzy" value="60">60%</label>
             </dd>
-            <dt class="painstrike">Painstrike (Crit Damage Up)</dt>
+            <dt><img src="./pic/petskill_painstrike.png"> <span class="painstrike">Painstrike (Crit Damage Up)</span></dt>
             <dd>
               <label class="none"><input type="radio" name="painstrike" value="0" checked>none</label>
               <label></label>
               <label></label>
               <label class="red"><input type="radio" name="painstrike" value="60">60%</label>
             </dd>
-            <dt class="crush">Crush (x% chance to 10x damage)</dt>
+            <dt><img src="./pic/petskill_crush.png"> <span class="crush">Crush (x% chance to 10x damage)</span></dt>
             <dd>
               <label class="none"><input type="radio" name="crush" value="0" checked>none</label>
               <label></label>
@@ -287,7 +288,7 @@
         epic:{cd:15, damage:7.5},
         legend:{cd:20, damage:10}
       }
-      const petAtk = Math.trunc(obj.survivorAtk * (inheritance[obj.quality].percentage + Number(obj.stand))/100) + inheritance[obj.quality].baseAtk + inheritance[obj.quality].lvAtk * petLv;
+      const petAtk = Math.trunc(obj.ownerAtk * (inheritance[obj.quality].percentage + Number(obj.stand))/100) + inheritance[obj.quality].baseAtk + inheritance[obj.quality].lvAtk * petLv;
       
       const assistDamage = Number(obj.powerful) + raid[obj.raid].damage;
       const skillDamageMultiplier = [];
