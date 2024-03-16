@@ -3,11 +3,11 @@
 }
 h1 {
   font-size: 18px;
+  display: inline-block;
 }
 select#language {
-  position: absolute;
-  top: 48px;
-  right: 10px;
+  float: right;
+  margin-top: 14px;
 }
 input[type="number"] {
   text-align: right;
@@ -20,6 +20,10 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 input[type="radio"] {
   margin-top: 0;
+}
+img {
+  width: 28px;
+  height: 28px;
 }
 dl {
   margin-top: 0;
@@ -104,6 +108,8 @@ button.help {
   position: absolute;
   top: 4px;
   right: 4px;
+  width: 24px;
+  height: 24px;
 }
 button.help:hover {
   cursor: pointer;
@@ -121,6 +127,10 @@ dialog dt {
 dialog dd {
   margin-left: 20px;
   font-size: 12px;
+}
+dialog .tips {
+  display: list-item;
+  list-style-type: ' - '; 
 }
 .footer {
   margin-left: 8px;
