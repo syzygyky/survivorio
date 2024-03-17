@@ -11,106 +11,9 @@
   <div class="container">
     <div class="wrapper">
       <details>
-        <summary></summary>
-        <button type="button" class="help" onclick="modal.showModal()"></button>
-        <dialog id="modal">
-          <div class="modal-content" lang="en">
-            <dl>
-              <dt>Precautions</dt>
-              <dd class="tips">The calculation results do not take into account debuff effects.</dd>
-              <dd class="tips">DPS does not include damage from normal attacks (Dervish).</dd>
-              <dd class="tips">The time it takes for the enhancement from the same target hit to reach its maximum is not considered.</dd>
-              <dd class="tips">Actual damage may differ slightly due to rounding errors.</dd>
-              <dt>Tips</dt>
-              <dd class="tips">Crush is described in the text as enemies with below 50% HP, but in reality there is no HP determination and it is always triggered.</dd>
-              <dd class="tips">In Clan Expedition, damage cuts are applied every time a certain number of HP bars are reduced.</dd>
-              <dd class="tips">Presumably, in Exreme Challenge, there is no effect of increasing owner level of assist skills. CD reducing of Raid is not owner level dependent and therefore effective.</dd>
-              <dd class="tips">The debuff of Zone Operation 'Crit Damage Reduced' is supposedly not valid for pets. </dd>
-              <dt>Calculation Formulas</dt>
-              <dd>
-                <dl>
-                  <dt>Non-crit Hit Damage</dt>
-                  <dd>Skill Damage × ATK</dd>
-                  <dt>Crit Damage</dt>
-                  <dd>Non-crit Hit Damage × Crit Damage Multiplier</dd>
-                  <dt>Skill Damage (tentative)</dt>
-                  <dd>216 × ((Powerful% + Raid%) × Skill-lvl upgrades + Sharp Claws%) × (1 + damage up by each hit on the same target%)</dd>
-                  <dt>Crit Damage Multiplier</dt>
-                  <dd>2 + Painstrike%</dd>
-                  <dt>Crit Rate</dt>
-                  <dd>(1 - Crush%) × Frenzy%</dd>
-                  <dt>Pet ATK</dt>
-                  <dd>
-                    Owner ATK × (Inherited ATK% + United Stand%) + Base ATK of the quality + ATK/level × level
-                    <dl>
-                      <dt><span class="red">Legend</span></dt>
-                      <dd>Inherited: 60%, Base: 725, ATK/level: 180</dd>
-                      <dt><span class="yellow">Epic +3</span></dt>
-                      <dd>Inherited: 56%, Base: 665, ATK/level: 165</dd>
-                      <dt><span class="yellow">Epic +2</span></dt>
-                      <dd>Inherited: 54%, Base: 605, ATK/level: 150</dd>
-                      <dt><span class="yellow">Epic +1</span></dt>
-                      <dd>Inherited: 52%, Base: 545, ATK/level: 135</dd>
-                      <dt><span class="yellow">Epic</span></dt>
-                      <dd>Inherited: 50%, Base: 485, ATK/level: 120</dd>
-                    </dl>
-                  </dd>
-                  <dt>CD (lower limit 0.6sec)</dt>
-                  <dd>1.2 × (1 - CD reduction by each hit on the same target%) × (1 - Raid%) × (1 - Battle Lust%)</dd>
-                  <dd>e.g. Awakening☆☆☆(-35%), Excellent Raid(-10%)、Epic Battle Lust(-20%)<br>1.2 × 0.65 × 0.9 × 0.8 = 0.5616 (→ 0.6sec)</dd>
-                </dl>
-              </dd>
-            </dl>
-          </div>
-          <div class="modal-content" lang="ja" style="display: none">
-            <dl>
-              <dt>注意事項</dt>
-              <dd class="tips">計算結果にデバフ効果は考慮されていません。</dd>
-              <dd class="tips">DPSに通常攻撃（小旋風）のダメージは含まれていません。</dd>
-              <dd class="tips">同一対象ヒットによる強化が最大に達するまでの時間は考慮されていません。</dd>
-              <dd class="tips">丸め誤差により実際のダメージと僅かに異なる場合があります。</dd>
-              <dt>補足事項</dt>
-              <dd class="tips">圧倒は説明文にはHPが50%以下の敵と書かれていますが、実際はHPの判定はなく、常時発動します。</dd>
-              <dd class="tips">遠征ではHPゲージを一定数削るごとにダメージカットが入ります。</dd>
-              <dd class="tips">恐らく、極限ではヘルパースキルのLv効果がありません。レイドの短縮はLv依存ではないため効果があります。</dd>
-              <dd class="tips">地域行動のデバフ「クリティカルダメージ減少」はペットには無効と思われます。</dd>
-              <dt>計算式</dt>
-              <dd>
-                <dl>
-                  <dt>通常ダメージ</dt>
-                  <dd>スキルダメージ × ATK</dd>
-                  <dt>クリティカルダメージ</dt>
-                  <dd>通常ダメージ × クリティカル倍率%</dd>
-                  <dt>スキルダメージ (仮)</dt>
-                  <dd>216 × ((強力% + レイド%) × スキルLv強化 + 鋭い爪%) × (1 + 同一ヒットのダメージアップ%)</dd>
-                  <dt>クリティカル倍率</dt>
-                  <dd>2 + ペインアタック%</dd>
-                  <dt>クリティカル率</dt>
-                  <dd>(1 - 圧倒%) × 狂気%</dd>
-                  <dt>ペットATK</dt>
-                  <dd>
-                    主人ATK × (継承率% + 敵愾心%) + 品質基本値 + 品質上昇値×Lv
-                    <dl>
-                      <dt><span class="red">Legend</span></dt>
-                      <dd>継承率60%、基本値725、上昇値180</dd>
-                      <dt><span class="yellow">Epic +3</span></dt>
-                      <dd>継承率56%、基本値665、上昇値165</dd>
-                      <dt><span class="yellow">Epic +2</span></dt>
-                      <dd>継承率54%、基本値605、上昇値150</dd>
-                      <dt><span class="yellow">Epic +1</span></dt>
-                      <dd>継承率52%、基本値545、上昇値135</dd>
-                      <dt><span class="yellow">Epic</span></dt>
-                      <dd>継承率50%、基本値485、上昇値120</dd>
-                    </dl>
-                  </dd>
-                  <dt>CD (下限0.6秒)</dt>
-                  <dd>1.2 × (1 - 同一ヒットのCD減%) × (1 - レイド%) × (1 - 闘争心%)</dd>
-                  <dd>(例) 覚醒☆☆☆(-35%)、レイド紫(-10%)、闘争心黄(-20%)の場合<br>1.2 × 0.65 × 0.9 × 0.8 = 0.5616 (→ 0.6秒)</dd>
-                </dl>
-              </dd>
-            </dl>
-          </div>
-        </dialog>
+        <summary>
+          <button type="button" class="help" onclick="modal.showModal()"></button>
+        </summary>
       <dl id="result">
         <dt class="dps">DPS</dt>
         <dd></dd>
@@ -129,6 +32,104 @@
       </dl>
       </details>
     </div>
+    <dialog id="modal">
+      <div class="modal-content" lang="en">
+        <dl>
+          <dt>Precautions</dt>
+          <dd class="tips">The calculation results do not take into account debuff effects.</dd>
+          <dd class="tips">DPS does not include damage from normal attacks (Dervish).</dd>
+          <dd class="tips">The time it takes for the enhancement from the same target hit to reach its maximum is not considered.</dd>
+          <dd class="tips">Actual damage may differ slightly due to rounding errors.</dd>
+          <dt>Tips</dt>
+          <dd class="tips">Crush is described in the text as enemies with below 50% HP, but in reality there is no HP determination and it is always triggered.</dd>
+          <dd class="tips">In Clan Expedition, damage cuts are applied every time a certain number of HP bars are reduced.</dd>
+          <dd class="tips">Presumably, in Exreme Challenge, there is no effect of increasing owner level of assist skills. CD reducing of Raid is not owner level dependent and therefore effective.</dd>
+          <dd class="tips">The debuff of Zone Operation 'Crit Damage Reduced' is supposedly not valid for pets. </dd>
+          <dt>Calculation Formulas</dt>
+          <dd>
+            <dl>
+              <dt>Non-crit Hit Damage</dt>
+              <dd>Skill Damage × ATK</dd>
+              <dt>Crit Damage</dt>
+              <dd>Non-crit Hit Damage × Crit Damage Multiplier</dd>
+              <dt>Skill Damage (tentative)</dt>
+              <dd>216 × ((Powerful% + Raid%) × Skill-lvl upgrades + Sharp Claws%) × (1 + damage up by each hit on the same target%)</dd>
+              <dt>Crit Damage Multiplier</dt>
+              <dd>2 + Painstrike%</dd>
+              <dt>Crit Rate</dt>
+              <dd>(1 - Crush%) × Frenzy%</dd>
+              <dt>Pet ATK</dt>
+              <dd>
+                Owner ATK × (Inherited ATK% + United Stand%) + Base ATK of the quality + ATK/level × level
+                <dl>
+                  <dt><span class="red">Legend</span></dt>
+                  <dd>Inherited: 60%, Base: 725, ATK/level: 180</dd>
+                  <dt><span class="yellow">Epic +3</span></dt>
+                  <dd>Inherited: 56%, Base: 665, ATK/level: 165</dd>
+                  <dt><span class="yellow">Epic +2</span></dt>
+                  <dd>Inherited: 54%, Base: 605, ATK/level: 150</dd>
+                  <dt><span class="yellow">Epic +1</span></dt>
+                  <dd>Inherited: 52%, Base: 545, ATK/level: 135</dd>
+                  <dt><span class="yellow">Epic</span></dt>
+                  <dd>Inherited: 50%, Base: 485, ATK/level: 120</dd>
+                </dl>
+              </dd>
+              <dt>CD (lower limit 0.6sec)</dt>
+              <dd>1.2 × (1 - CD reduction by each hit on the same target%) × (1 - Raid%) × (1 - Battle Lust%)</dd>
+              <dd>e.g. Awakening☆☆☆(-35%), Excellent Raid(-10%)、Epic Battle Lust(-20%)<br>1.2 × 0.65 × 0.9 × 0.8 = 0.5616 (→ 0.6sec)</dd>
+            </dl>
+          </dd>
+        </dl>
+      </div>
+      <div class="modal-content" lang="ja" style="display: none">
+        <dl>
+          <dt>注意事項</dt>
+          <dd class="tips">計算結果にデバフ効果は考慮されていません。</dd>
+          <dd class="tips">DPSに通常攻撃（小旋風）のダメージは含まれていません。</dd>
+          <dd class="tips">同一対象ヒットによる強化が最大に達するまでの時間は考慮されていません。</dd>
+          <dd class="tips">丸め誤差により実際のダメージと僅かに異なる場合があります。</dd>
+          <dt>補足事項</dt>
+          <dd class="tips">圧倒は説明文にはHPが50%以下の敵と書かれていますが、実際はHPの判定はなく、常時発動します。</dd>
+          <dd class="tips">遠征ではHPゲージを一定数削るごとにダメージカットが入ります。</dd>
+          <dd class="tips">恐らく、極限ではヘルパースキルのLv効果がありません。レイドの短縮はLv依存ではないため効果があります。</dd>
+          <dd class="tips">地域行動のデバフ「クリティカルダメージ減少」はペットには無効と思われます。</dd>
+          <dt>計算式</dt>
+          <dd>
+            <dl>
+              <dt>通常ダメージ</dt>
+              <dd>スキルダメージ × ATK</dd>
+              <dt>クリティカルダメージ</dt>
+              <dd>通常ダメージ × クリティカル倍率%</dd>
+              <dt>スキルダメージ (仮)</dt>
+              <dd>216 × ((強力% + レイド%) × スキルLv強化 + 鋭い爪%) × (1 + 同一ヒットのダメージアップ%)</dd>
+              <dt>クリティカル倍率</dt>
+              <dd>2 + ペインアタック%</dd>
+              <dt>クリティカル率</dt>
+              <dd>(1 - 圧倒%) × 狂気%</dd>
+              <dt>ペットATK</dt>
+              <dd>
+                主人ATK × (継承率% + 敵愾心%) + 品質基本値 + 上昇値×Lv
+                <dl>
+                  <dt><span class="red">Legend</span></dt>
+                  <dd>継承率60%、基本値725、上昇値180</dd>
+                  <dt><span class="yellow">Epic +3</span></dt>
+                  <dd>継承率56%、基本値665、上昇値165</dd>
+                  <dt><span class="yellow">Epic +2</span></dt>
+                  <dd>継承率54%、基本値605、上昇値150</dd>
+                  <dt><span class="yellow">Epic +1</span></dt>
+                  <dd>継承率52%、基本値545、上昇値135</dd>
+                  <dt><span class="yellow">Epic</span></dt>
+                  <dd>継承率50%、基本値485、上昇値120</dd>
+                </dl>
+              </dd>
+              <dt>CD (下限0.6秒)</dt>
+              <dd>1.2 × (1 - 同一ヒットのCD減%) × (1 - レイド%) × (1 - 闘争心%)</dd>
+              <dd>(例) 覚醒☆☆☆(-35%)、レイド紫(-10%)、闘争心黄(-20%)の場合<br>1.2 × 0.65 × 0.9 × 0.8 = 0.5616 (→ 0.6秒)</dd>
+            </dl>
+          </dd>
+        </dl>
+      </div>
+    </dialog>
     <h1><img src="./pic/murica_icon.png"> Murica Simulator (beta)</h1>
     <select id="language">
       <option value="en">English</option>
