@@ -31,8 +31,8 @@ const languageTexts = {
     en:'Stats',
     ja:'基本ステータス'
   },
-  survivorAtk:{
-    en:'Survivor ATK',
+  ownerAtk:{
+    en:'Owner ATK',
     ja:'サバイバーATK'
   },
   petQuality:{
@@ -59,8 +59,8 @@ const languageTexts = {
     en:'Raid (Gary; Damage +, CD -)',
     ja:'レイド (ゲイリー; ダメージ＋, CD－)'
   },
-  survivorSkillLv:{
-    en:'Survivor Skill Level',
+  ownerSkillLv:{
+    en:'Owner Skill Level',
     ja:'サバイバースキルLv'
   },
   cePot:{
