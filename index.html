@@ -12,12 +12,17 @@
     ul {
       padding-left: 24px;
     }
+    img.icon {
+      width: 18px;
+      height: 18px;
+    }
   </style>
 </head>
 <body>
   <h1>syzygyky.github.io/survivorio</h1>
   <div class="container">
     <div class="content">
+      <img src="pic/energy.webp" class="icon">: <span id="remaining-energy"></span>
       <p>Pages</p>
       <ul>
         <li><a href="murica.html">Murica Simulator (beta)</a></li>
@@ -28,8 +33,40 @@
         <li>
           <a href="https://discordapp.com/users/1198075385393455225">Discord (@k01477)</a>
         </li>
-      </ul>
+      </ul>      
     </div>
   </div>
+  <script>
+    function getRemainingEnergy(){
+      const now = new Date();
+      const currentUTCHours = now.getUTCHours();
+      const currentUTCMinutes = now.getUTCMinutes();
+      const currentUTCSeconds = now.getUTCSeconds();
+
+      let targetUTCHours = 16;
+      if (currentUTCHours >= targetUTCHours) {
+          targetUTCHours += 24;
+      }
+
+      const targetUTCMinutes = 0;
+      const targetUTCSeconds = 0;
+
+      const targetTime = new Date();
+      targetTime.setUTCHours(targetUTCHours, 0, 0);
+
+      let remainingMilliseconds = targetTime.getTime() - now.getTime();
+
+      const hours = Math.floor(remainingMilliseconds / (1000 * 60 * 60));
+      remainingMilliseconds %= 1000 * 60 * 60;
+      const minutes = Math.floor(remainingMilliseconds / (1000 * 60));
+      remainingMilliseconds %= 1000 * 60;
+      const seconds = Math.floor(remainingMilliseconds / 1000);
+
+      const remainingTime = hours.toString().padStart(2, '0') + ":" + minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
+      const energy = hours*3 + Math.floor(minutes/20);
+      document.getElementById('remaining-energy').textContent = `${energy}~${energy+1} (${remainingTime})`;
+    }
+    setInterval(getRemainingEnergy,1000)
+  </script>
   </body>
 </html>
