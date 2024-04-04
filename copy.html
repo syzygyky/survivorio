@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="./css/dark.css" rel="stylesheet">
+
+<title>
+	Message Copy Tool for Clan Chat - syzygyky
+</title>
+
+<style>
+  #messages textarea {
+    background-color: #585858;
+    width: 90vw;
+    height: 3em;
+  }
+  .toast {
+    background-color: #333;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 4px;
+    padding: 8px;
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 9999;
+  }
+</style>
+</head>
+<body>
+  <textarea id="textarea" style="width:90vw; height:50vh"></textarea>
+  <div id="messages"></div>
+<script>
+  function splitStringByByte(str, byteLength) {
+    const chunks = [];
+    let index = 0;
+
+    while (index < str.length) {
+        let byteCount = 0;
+        let chunk = '';
+
+        while (index < str.length) {
+          const char = str.charAt(index);
+          const charCode = char.charCodeAt(0);
+          byteCount += (charCode > 0x7f) ? 3 : 1;
+          if (byteCount > byteLength) break;
+          chunk += char;
+          index++;
+          if (char === '\n') break;
+        }
+
+        chunks.push(chunk);
+    }
+
+    return chunks;
+  }
+  
+  function divideChunks(chunks) {
+    const messages = document.getElementById('messages');
+    messages.innerHTML = '';
+    for(let i=0; i<chunks.length; i++){
+      const chunk = chunks[i].replace('\n','');
+      if(chunk !== '') {
+        const ta = document.createElement('textarea');
+        ta.readOnly = true;
+        ta.value = chunk;
+        messages.append(ta);
+      }
+    }
+  }
+
+  const textarea = document.getElementById('textarea');
+  textarea.addEventListener('input',function(){
+    const chunks = splitStringByByte(textarea.value, 100);
+    divideChunks(chunks);
+  })
+
+  document.getElementById('messages').addEventListener('click',function(){
+    event.stopPropagation();
+    const text = event.target.value;
+    navigator.clipboard.writeText(text).then(showToast);
+   })
+
+  function showToast() {
+    let toast = document.createElement('div');
+    toast.textContent = 'Copied';
+    toast.classList.add('toast');
+    document.body.appendChild(toast);
+
+    setTimeout(function() {
+      toast.style.opacity = '1';
+      setTimeout(function() {
+        toast.style.opacity = '0';
+        setTimeout(function() {
+          document.body.removeChild(toast);
+        }, 300);
+      }, 2000);
+    }, 0);
+  }
+</script>
+</body>
+</html>
