@@ -43,8 +43,8 @@
           <dt>Tips</dt>
           <dd class="tips">Crush is described in the text as enemies with below 50% HP, but in reality there is no HP determination and it is always triggered.</dd>
           <dd class="tips">In Clan Expedition, damage cuts are applied every time a certain number of HP bars are reduced.</dd>
-          <dd class="tips">Presumably, in Exreme Challenge, there is no effect of increasing owner level of assist skills. CD reducing of Raid is not owner level dependent and therefore effective.</dd>
-          <dd class="tips">The debuff of Zone Operation 'Crit Damage Reduced' is supposedly not valid for pets. </dd>
+          <dd class="tips">In Exreme Challenge, there is no effect of increasing owner level of assist skills. CD reducing of Raid is not owner level dependent and therefore effective.</dd>
+          <dd class="tips">The debuff of Zone Operation 'Crit Damage Reduced' doesn't affect pets. </dd>
           <dt>Calculation Formulas</dt>
           <dd>
             <dl>
@@ -52,8 +52,8 @@
               <dd>Skill Damage × ATK</dd>
               <dt>Crit Damage</dt>
               <dd>Non-crit Hit Damage × Crit Damage Multiplier</dd>
-              <dt>Skill Damage (tentative)</dt>
-              <dd>216 × ((Powerful% + Raid%) × Skill-lvl upgrades + Sharp Claws%) × (1 + damage up by each hit on the same target%)</dd>
+              <dt>Skill Damage</dt>
+              <dd>216 × {(Powerful% + Raid%) × Skill-lvl upgrades + Sharp Claws%} × (1 + damage up by each hit on the same target%)</dd>
               <dt>Crit Damage Multiplier</dt>
               <dd>2 + Painstrike%</dd>
               <dt>Crit Rate</dt>
@@ -91,8 +91,8 @@
           <dt>補足事項</dt>
           <dd class="tips">圧倒は説明文にはHPが50%以下の敵と書かれていますが、実際はHPの判定はなく、常時発動します。</dd>
           <dd class="tips">遠征ではHPゲージを一定数削るごとにダメージカットが入ります。</dd>
-          <dd class="tips">恐らく、極限ではヘルパースキルのLv効果がありません。レイドの短縮はLv依存ではないため効果があります。</dd>
-          <dd class="tips">地域行動のデバフ「クリティカルダメージ減少」はペットには無効と思われます。</dd>
+          <dd class="tips">極限ではヘルパースキルのLv効果がありません。レイドの短縮はLv依存ではないため効果があります。</dd>
+          <dd class="tips">地域行動のデバフ「クリティカルダメージ減少」はペットには無効です。</dd>
           <dt>計算式</dt>
           <dd>
             <dl>
@@ -100,8 +100,8 @@
               <dd>スキルダメージ × ATK</dd>
               <dt>クリティカルダメージ</dt>
               <dd>通常ダメージ × クリティカル倍率%</dd>
-              <dt>スキルダメージ (仮)</dt>
-              <dd>216 × ((強力% + レイド%) × スキルLv強化 + 鋭い爪%) × (1 + 同一ヒットのダメージアップ%)</dd>
+              <dt>スキルダメージ</dt>
+              <dd>216 × {(強力% + レイド%) × スキルLv強化 + 鋭い爪%} × (1 + 同一ヒットのダメージアップ%)</dd>
               <dt>クリティカル倍率</dt>
               <dd>2 + ペインアタック%</dd>
               <dt>クリティカル率</dt>
@@ -110,15 +110,15 @@
               <dd>
                 主人ATK × (継承率% + 敵愾心%) + 品質基本値 + 上昇値×Lv
                 <dl>
-                  <dt><span class="red">Legend</span></dt>
+                  <dt><span class="red">レジェンド</span></dt>
                   <dd>継承率60%、基本値725、上昇値180</dd>
-                  <dt><span class="yellow">Epic +3</span></dt>
+                  <dt><span class="yellow">エピック +3</span></dt>
                   <dd>継承率56%、基本値665、上昇値165</dd>
-                  <dt><span class="yellow">Epic +2</span></dt>
+                  <dt><span class="yellow">エピック +2</span></dt>
                   <dd>継承率54%、基本値605、上昇値150</dd>
-                  <dt><span class="yellow">Epic +1</span></dt>
+                  <dt><span class="yellow">エピック +1</span></dt>
                   <dd>継承率52%、基本値545、上昇値135</dd>
-                  <dt><span class="yellow">Epic</span></dt>
+                  <dt><span class="yellow">エピック</span></dt>
                   <dd>継承率50%、基本値485、上昇値120</dd>
                 </dl>
               </dd>
@@ -130,7 +130,7 @@
         </dl>
       </div>
     </dialog>
-    <h1><img src="./pic/murica_icon.png"> Murica Simulator (beta)</h1>
+    <h1><img src="./pic/murica_icon.png"> Murica Simulator</h1>
     <select id="language">
       <option value="en">English</option>
       <option value="ja">日本語</option>
@@ -363,6 +363,6 @@
     document.form.quality.addEventListener('change',changePetLvPh);
     document.form.addEventListener('input',calc);
   </script>
-  <script src="language.js"></script>
+  <script src="murica_traslate.js"></script>
 </body>
 </html>
