@@ -96,7 +96,7 @@ dl#result dd {
   margin-left: 10px;
 }
 .wrapper summary::before {
-  content: 'DPS';
+  content: 'Show Results';
 }
 .wrapper details[open] summary::before {
   content: 'Hide';
