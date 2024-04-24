@@ -12,8 +12,12 @@
 <style>
   #messages textarea {
     background-color: #585858;
-    width: 98vw;
+    width: 95vw;
     height: 3em;
+  }
+  #textarea {
+    width: 95vw;
+    height: 50vh;
   }
   .toast {
     background-color: #333;
@@ -31,7 +35,7 @@
 </style>
 </head>
 <body>
-  <textarea id="textarea" style="width:98vw; height:50vh"></textarea>
+  <textarea id="textarea"></textarea>
   <div id="messages"></div>
 <script>
   function splitStringByByte(str, byteLength) {
