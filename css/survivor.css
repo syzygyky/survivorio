@@ -1,0 +1,62 @@
+input[type="number"] {
+  width: 4em;
+}
+
+input[type="checkbox"]:disabled {
+  accent-color: #333;
+}
+input[type="checkbox"]:disabled:not(:checked) {
+  appearance: none;
+  margin-bottom: 0;
+  width: 1em;
+  height: 1em;
+  background: #333;
+  border: solid 1px #555;
+}
+img.icon {
+  width: 28px;
+}
+
+.survivor-upgrade {
+  height: 60vh;
+  overflow-y: auto;
+}
+.survivor-upgrade form {
+  display: flex;
+  width: 96vw;
+  overflow-x: auto;
+}
+.survivor-upgrade fieldset {
+  width: 48%;
+}
+.survivor-upgrade dd {
+  margin-left: 10px;
+  white-space: nowrap;
+}
+.survivor-upgrade dd select {
+  max-width: 16vw;
+}
+#result {
+  border: solid 2px #ccc;
+}
+#stats-result {
+  display: flex;
+  width: 96vw;
+  overflow-x: auto;
+}
+.flex-dl {
+  width: 100%;
+  border: solid 2px #ccc;
+}
+.flex-dl dt{
+  width: 30%;
+  padding-bottom: 4px;
+  font-size: 90%;
+  text-align: center;
+}
+.flex-dl dd {
+  width: 70%;
+  margin: 4px;
+  font-weight: bold;
+  background: #444;
+}
