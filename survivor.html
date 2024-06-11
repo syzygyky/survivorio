@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="./css/dark.css">
+  <link rel="stylesheet" href="./css/survivor.css">
+  <title>
+    Survivor-Leveling Calculator
+  </title>
+</head>
+<body>
+  <div id="resource-calc">
+    <div class="form-control">
+      <form name="control">
+        <button type="button" onclick="resetForm('current')">Reset (Now)</button>
+        <button type="button" onclick="resetForm('target')">Reset (Goal)</button>
+        <label><input type="checkbox" name="toSave" onclick="saveToLocalStorage()">Remember Inputs</label>
+        <button type="button" onclick="deleteLocalStorage()">Delete Inputs</button>
+      </form>
+    </div>
+    <div class="survivor-upgrade">
+      <form name="survivors">
+        <fieldset data-state="current">
+          <legend>Now</legend>
+          <dl>
+            <dt>
+              <img src="pic/common.webp" class="icon">Common:
+            </dt>
+            <dd data-survivor="common">
+              <label>Lvl.<input type="number" name="lvl" placeholder="40"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0">(Locked)</option>
+                  <option value="1">☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6" selected>☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/tsukuyomi.webp" class="icon">Tsukuyomi:
+            </dt>
+            <dd data-survivor="tsukuyomi">
+              <label>Lvl.<input type="number" name="lvl" placeholder="80"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0">(Locked)</option>
+                  <option value="1">☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6" selected>☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/catnips.webp" class="icon">Catnips:
+            </dt>
+            <dd data-survivor="catnips">
+              <label>Lvl.<input type="number" name="lvl" placeholder="40"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0">(Locked)</option>
+                  <option value="1">☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6" selected>☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/worm.webp" class="icon">Worm:
+            </dt>
+            <dd data-survivor="worm">
+              <label>Lvl.<input type="number" name="lvl" placeholder="80"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0">(Locked)</option>
+                  <option value="1">☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6" selected>☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/king.webp" class="icon">King:
+            </dt>
+            <dd data-survivor="king">
+              <label>Lvl.<input type="number" name="lvl" placeholder="80"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0">(Locked)</option>
+                  <option value="1">☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6" selected>☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/wesson.webp" class="icon">Wesson:
+            </dt>
+            <dd data-survivor="wesson">
+              <label>Lvl.<input type="number" name="lvl" placeholder="80"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0">(Locked)</option>
+                  <option value="1">☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6" selected>☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/yelena.webp" class="icon">Yelena:
+            </dt>
+            <dd data-survivor="yelena">
+              <label>Lvl.<input type="number" name="lvl" placeholder="40"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0">(Locked)</option>
+                  <option value="1">☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6" selected>☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/master_yang.webp" class="icon">Master Yang:
+            </dt>
+            <dd data-survivor="yang">
+              <label>Lvl.<input type="number" name="lvl" placeholder="120"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0">(Locked)</option>
+                  <option value="1">☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6" selected>☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/metallia.webp" class="icon">Metallia:
+            </dt>
+            <dd data-survivor="metallia">
+              <label>Lvl.<input type="number" name="lvl" placeholder="40"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0">(Locked)</option>
+                  <option value="1">☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6" selected>☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/spongebob.webp" class="icon">SpongeBob:
+            </dt>
+            <dd data-survivor="spongebob">
+              <label>Lvl.<input type="number" name="lvl" placeholder="40"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0">(Locked)</option>
+                  <option value="1" selected>☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6">☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/squidward.webp" class="icon">Squidward:
+            </dt>
+            <dd data-survivor="squidward">
+              <label>Lvl.<input type="number" name="lvl" placeholder="40"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0">(Locked)</option>
+                  <option value="1" selected>☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6">☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/patrick.webp" class="icon">Patrick:
+            </dt>
+            <dd data-survivor="patrick">
+              <label>Lvl.<input type="number" name="lvl" placeholder="40"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0">(Locked)</option>
+                  <option value="1" selected>☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6">☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/sandy.webp" class="icon">Sandy:
+            </dt>
+            <dd data-survivor="sandy">
+              <label>Lvl.<input type="number" name="lvl" placeholder="40"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0">(Locked)</option>
+                  <option value="1" selected>☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6">☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+          </dl>
+        </fieldset>
+        <fieldset data-state="target">
+          <legend>Goal</legend>
+          <dl>
+            <dt>
+              <img src="pic/common.webp" class="icon">Common:
+            </dt>
+            <dd data-survivor="common">
+              <label><input type="checkbox" name="isLvlChanged" disabled>
+                Lvl.<input type="number" name="lvl"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0" selected>----</option>
+                  <option value="1">☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6">☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/tsukuyomi.webp" class="icon">Tsukuyomi:
+            </dt>
+            <dd data-survivor="tsukuyomi">
+              <label><input type="checkbox" name="isLvlChanged" disabled>
+                Lvl.<input type="number" name="lvl"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0" selected>----</option>
+                  <option value="1">☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6">☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/catnips.webp" class="icon">Catnips:
+            </dt>
+            <dd data-survivor="catnips">
+              <label><input type="checkbox" name="isLvlChanged" disabled>
+                Lvl.<input type="number" name="lvl"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0" selected>----</option>
+                  <option value="1">☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6">☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/worm.webp" class="icon">Worm:
+            </dt>
+            <dd data-survivor="worm">
+              <label><input type="checkbox" name="isLvlChanged" disabled>
+                Lvl.<input type="number" name="lvl"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0" selected>----</option>
+                  <option value="1">☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6">☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/king.webp" class="icon">King:
+            </dt>
+            <dd data-survivor="king">
+              <label><input type="checkbox" name="isLvlChanged" disabled>
+                Lvl.<input type="number" name="lvl"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0" selected>----</option>
+                  <option value="1">☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6">☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/wesson.webp" class="icon">Wesson:
+            </dt>
+            <dd data-survivor="wesson">
+              <label><input type="checkbox" name="isLvlChanged" disabled>
+                Lvl.<input type="number" name="lvl"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0" selected>----</option>
+                  <option value="1">☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6">☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/yelena.webp" class="icon">Yelena:
+            </dt>
+            <dd data-survivor="yelena">
+              <label><input type="checkbox" name="isLvlChanged" disabled>
+                Lvl.<input type="number" name="lvl"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0" selected>----</option>
+                  <option value="1">☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6">☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/master_yang.webp" class="icon">Master Yang:
+            </dt>
+            <dd data-survivor="yang">
+              <label><input type="checkbox" name="isLvlChanged" disabled>
+                Lvl.<input type="number" name="lvl"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0" selected>----</option>
+                  <option value="1">☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6">☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/metallia.webp" class="icon">Metallia:
+            </dt>
+            <dd data-survivor="metallia">
+              <label><input type="checkbox" name="isLvlChanged" disabled>
+                Lvl.<input type="number" name="lvl"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0" selected>----</option>
+                  <option value="1">☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6">☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/spongebob.webp" class="icon">SpongeBob:
+            </dt>
+            <dd data-survivor="spongebob">
+              <label><input type="checkbox" name="isLvlChanged" disabled>
+                Lvl.<input type="number" name="lvl"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0" selected>----</option>
+                  <option value="1">☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6">☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/squidward.webp" class="icon">Squidward:
+            </dt>
+            <dd data-survivor="squidward">
+              <label><input type="checkbox" name="isLvlChanged" disabled>
+                Lvl.<input type="number" name="lvl"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0" selected>----</option>
+                  <option value="1">☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6">☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/patrick.webp" class="icon">Patrick:
+            </dt>
+            <dd data-survivor="patrick">
+              <label><input type="checkbox" name="isLvlChanged" disabled>
+                Lvl.<input type="number" name="lvl"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0" selected>----</option>
+                  <option value="1">☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6">☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+            <dt>
+              <img src="pic/sandy.webp" class="icon">Sandy:
+            </dt>
+            <dd data-survivor="sandy">
+              <label><input type="checkbox" name="isLvlChanged" disabled>
+                Lvl.<input type="number" name="lvl"></label>
+              <select name="upgrade">
+                <optgroup label="Not Awakened">
+                  <option value="0" selected>----</option>
+                  <option value="1">☆1</option>
+                  <option value="2">☆2</option>
+                  <option value="3">☆3</option>
+                  <option value="4">☆4</option>
+                  <option value="5">☆5</option>
+                  <option value="6">☆6</option>
+                </optgroup>
+                <optgroup label="Awakened">
+                  <option value="7">★1</option>
+                  <option value="8">★2</option>
+                  <option value="9">★3</option>
+                  <option value="10">★4</option>
+                  <option value="11">★5</option>
+                  <option value="12">★6</option>
+                </optgroup>
+              </select>
+            </dd>
+          </dl>
+        </fieldset>
+      </form>
+    </div>
+    <div id="result">
+      <dl class="flex-dl result"></dl>
+    </div>
+  </div>
+  <hr>
+  <div id="stats-calc">
+    <form name="stats">
+      <label>
+        <img id="selected-survivor" class="icon" src="pic/master_yang.webp">
+        <select name="survivor" oninput="switchSurvivorImg()">
+          <option value="common">Common</option>
+          <option value="tsukuyomi">Tsukuyomi</option>
+          <option value="catnips">Catnips</option>
+          <option value="worm">Worm</option>
+          <option value="king">King</option>
+          <option value="wesson">Wesson</option>
+          <option value="yelena">Yelena</option>
+          <option value="yang" selected>Master Yang</option>
+          <option value="metallia">Metallia</option>
+          <option value="spongebob">Spongebob</option>
+          <option value="squidward">Squidward</option>
+          <option value="patrick">Patrick</option>
+          <option value="sandy">Sandy</option>
+        </select>
+      </label>
+      <label>Clan Lv:
+        <select name="perks">
+          <option value="0">0+</option>
+          <option value="4">2+</option>
+          <option value="6">4+</option>
+          <option value="8">6+</option>
+          <option value="10">8+</option>
+          <option value="12">10+</option>
+          <option value="14">12+</option>
+          <option value="16">14+</option>
+          <option value="18">16+</option>
+        </select>
+      </label>
+      <button type="button" onclick="statsCalc()">Calculate</button>
+    </form>
+    <div id="stats-result">
+    </div>
+  </div>
+  <script src="survivor.js"></script>
+</body>
+</html>
