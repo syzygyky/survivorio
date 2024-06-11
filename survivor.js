@@ -237,13 +237,14 @@ function statsCalc(){
     const result = {}
     const effects = allSurvivorsEffects[state];
     const base = baseStats[state];
-    result.atk = Math.floor(base.atk * (100 + effects.atkUp + perks)/100);
-    result.hp = Math.floor(base.hp * (100 + effects.hpUp + perks)/100);
+    result.atk = Math.floor(base.atk * (100 + effects.atkUp + base.atkUp + perks)/100);
+    result.hp = Math.floor(base.hp * (100 + effects.hpUp + base.hpUp + perks)/100);
     result.heal = effects.heal;
     result.healOnLvlUp = effects.healOnLvlUp;
     result.critDamage = effects.critDamage;
     result.critRate = effects.critRate;
     return result;
+
   }
   const stats = {
     current: statsResult('current'),
@@ -349,7 +350,7 @@ function getForm(){
 document.survivors.addEventListener('input',(event) => lvlInputsVerifier(event.target));
 document.survivors.addEventListener('change',enhanceCostCalc);
 document.survivors.addEventListener('change',saveToLocalStorage);
-
+document.stats.addEventListener('change',saveToLocalStorage);
 document.addEventListener('DOMContentLoaded',restoreInputData);
 
 function resetForm(target){
@@ -407,8 +408,8 @@ function restoreInputData(){
     document.control.toSave.checked = true;
     const lvls = document.querySelectorAll('input[name="lvl"]');
     const upgrades = document.querySelectorAll('select[name="upgrade"]');
-    const survivor = document.stats.survivor.value;
-    const perks = document.stats.perks.value;
+    const survivor = document.stats.survivor;
+    const perks = document.stats.perks;
     for(let i=0; i<lvls.length; i++) {
       lvls[i].value = data.lvls[i] || '';
       lvlInputsVerifier(lvls[i]);
