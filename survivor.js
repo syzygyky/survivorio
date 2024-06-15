@@ -114,7 +114,7 @@ function enhanceCostCalc(){
         span.style.fontWeight = 'bold';
         if(totalCosts[key] > 0) span.style.color = '#4f4';
         if(totalCosts[key] < 0) span.style.color = '#f44';
-        span.textContent = Math.abs(totalCosts[key]);
+        span.textContent = Math.abs(totalCosts[key]).toLocaleString();
         if(key === 'gold') span.textContent += 'k';
         result.append(img,'x',span, ' ');
       }
@@ -262,9 +262,9 @@ function statsCalc(){
       results[state].append(div);
     }
     dts[0].textContent = 'ATK:',
-    dds[0].textContent = stats[state].atk,
+    dds[0].textContent = stats[state].atk.toLocaleString(),
     dts[1].textContent = 'HP:',
-    dds[1].textContent = stats[state].hp,
+    dds[1].textContent = stats[state].hp.toLocaleString(),
     dts[2].textContent = 'Crit Rate:',
     dds[2].textContent = stats[state].critRate + '%',
     dts[3].textContent = 'Crit Damage:',
