@@ -344,6 +344,34 @@ document.survivors.addEventListener('change',enhanceCostCalc);
 document.survivors.addEventListener('change',saveToLocalStorage);
 document.stats.addEventListener('change',saveToLocalStorage);
 document.addEventListener('DOMContentLoaded',restoreInputData);
+	
+window.onload = () => {
+  const images = [
+    'pic/img_hover.png',
+    'pic/energy_essence.webp',
+    'pic/gold.webp',
+    'pic/quantum_shard.webp',
+    'pic/awakening_core.webp',
+    'pic/shard_common.png',
+    'pic/shard_tsukuyomi.png',
+    'pic/shard_catnips.png',
+    'pic/shard_worm.png',
+    'pic/shard_king.png',
+    'pic/shard_wesson.png',
+    'pic/shard_yelena.png',
+    'pic/shard_yang.png',
+    'pic/shard_metallia.png',
+    'pic/shard_spongebob.png',
+    'pic/shard_squidward.png',
+    'pic/shard_patrick.png',
+    'pic/shard_sandy.png',
+    'pic/head_spongebob.png',
+    'pic/head_squidward.png',
+    'pic/head_patrick.png',
+    'pic/head_sandy.png',
+  ]
+  images.forEach(v => new Image().src = v)
+}
 
 function resetForm(target){
   const fieldset = document.querySelector(`fieldset[data-state=${target}]`);
