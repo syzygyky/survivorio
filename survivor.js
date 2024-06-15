@@ -95,9 +95,8 @@ function enhanceCostCalc(){
 
   const resultDiv = document.getElementById('result');
   resultDiv.innerHTML = '';
-  const result1 = document.createElement('p');
-  const result2 = document.createElement('p');
-  resultDiv.append(result1,result2);
+  const result = document.createElement('p');
+  resultDiv.append(result);
 
   const imgPath = {
     essence: 'pic/energy_essence.webp',
@@ -117,7 +116,7 @@ function enhanceCostCalc(){
         if(totalCosts[key] < 0) span.style.color = '#f44';
         span.textContent = Math.abs(totalCosts[key]);
         if(key === 'gold') span.textContent += 'k';
-        result1.append(img,'x',span, ' ');
+        result.append(img,'x',span, ' ');
       }
     }
     for(const key of Object.keys(survivorCosts)){
@@ -125,7 +124,7 @@ function enhanceCostCalc(){
         const img = document.createElement('img');
         img.src = `pic/head_${key}.png`;
         img.classList.add('icon');
-        result2.append(img);
+        result.append(img);
       }
       if(survivorCosts[key].shard !== 0){
         const span = document.createElement('span');
@@ -136,7 +135,7 @@ function enhanceCostCalc(){
         if(survivorCosts[key].shard > 0) span.style.color = '#4f4';
         if(survivorCosts[key].shard < 0) span.style.color = '#f44';
         span.textContent = Math.abs(survivorCosts[key].shard);
-        result2.append(img,'x',span, ' ');
+        result.append(img,'x',span, ' ');
       }
     }
   }
@@ -223,20 +222,10 @@ function statsCalc(){
     return result;
   }
 
-  const allSurvivorsEffects = {
-    current: getAllSurvivorsEffects('current'),
-    target: getAllSurvivorsEffects('target')
-  }
-
-  const baseStats = {
-    current: baseStatsCalc('current'),
-    target: baseStatsCalc('target')
-  }
-
   function statsResult(state){
     const result = {}
-    const effects = allSurvivorsEffects[state];
-    const base = baseStats[state];
+    const effects = getAllSurvivorsEffects(state);
+    const base = baseStatsCalc(state);
     result.atk = Math.floor(base.atk * (100 + effects.atkUp + base.atkUp + perks)/100);
     result.hp = Math.floor(base.hp * (100 + effects.hpUp + base.hpUp + perks)/100);
     result.heal = effects.heal;
@@ -246,10 +235,13 @@ function statsCalc(){
     return result;
 
   }
+  
   const stats = {
     current: statsResult('current'),
     target: statsResult('target')
   }
+  
+
   const resultDiv = document.getElementById('stats-result');
   resultDiv.innerHTML = '';
   const results = {
