@@ -1,7 +1,3 @@
-input[type="number"] {
-  width: 4em;
-}
-
 input[type="checkbox"]:disabled {
   accent-color: #333;
 }
@@ -29,12 +25,19 @@ img.icon {
 .survivor-upgrade fieldset {
   width: 48%;
 }
+.survivor-upgrade dt {
+  height: 38px;
+}
 .survivor-upgrade dd {
   margin-left: 10px;
   white-space: nowrap;
+  height: 24px;
 }
 .survivor-upgrade dd select {
   max-width: 16vw;
+}
+.survivor-upgrade input[name="lvl"] {
+  width: 3em;
 }
 #result {
   border: solid 2px #ccc;
