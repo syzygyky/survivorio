@@ -18,6 +18,31 @@ input,select, button {
   color: #ddd;
   border: solid 2px #aaa;
 }
+/*
+input[type="checkbox"] {
+  accent-color: #333;
+}
+input[type="checkbox"]:not(:checked) {
+  appearance: none;
+  margin-bottom: 0;
+  width: 1em;
+  height: 1em;
+  background: #333;
+  border: solid 1px #555;
+}
+input[type="radio"] {
+  accent-color: #333;
+}
+input[type="radio"]:not(:checked) {
+  appearance: none;
+  margin-bottom: 0;
+  width: 1em;
+  height: 1em;
+  background: #333;
+  border: solid 1px #555;
+  border-radius: 50%;
+}
+*/
 input[type="number"] {
     -moz-appearance: textfield;
 }
@@ -120,6 +145,36 @@ input.boxTotal {
       <button type="reset">Reset</button>
       <p class="result"></p>
     </form>
+    <hr>
+    <form name="form3">
+      <fieldset class="boxType">
+        <legend>Box Type</legend>
+        <label><input type="radio" name="boxType" value="3" checked>x3</label>
+        <label><input type="radio" name="boxType" value="2">x2</label>
+        <label><input type="radio" name="boxType" value="1a">x1(120)</label>
+        <label><input type="radio" name="boxType" value="1b">x1(160)</label>
+        <label class="boxLeft">Rewards Left:
+          <input type="number" name="boxLeft">/<input type="number" class="boxTotal" value="80" disabled>
+        </label>
+      </fieldset>
+      <fieldset class="prizes-field">
+        <legend>Prizes</legend>
+        <p>
+          <label><input type="checkbox" name="last" checked>Last Prize</label>
+        </p>
+        <p class="prizes">
+          <label>A: <input type="number" name="a"></label>
+          <label>B: <input type="number" name="b"></label>
+          <label>C: <input type="number" name="c"></label>
+          <label>D: <input type="number" name="d"></label>
+          <label>E: <input type="number" name="e"></label>
+          <label>F: <input type="number" name="f"></label>
+          <label>G: <input type="number" name="g"></label>
+        </p>
+      </fieldset>
+      <button type="reset">Reset</button>
+      <p class="result"></p>
+    </form>
   </div>
   <script>
     const exchangeTable = {
@@ -161,6 +216,7 @@ input.boxTotal {
     }
     document.form1.addEventListener('input',pointCalc);
     document.form2.addEventListener('input',pointCalc);
+    document.form3.addEventListener('input',pointCalc);
   </script>
 </body>
 </html>
