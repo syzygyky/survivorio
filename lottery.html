@@ -90,7 +90,8 @@ input.boxTotal {
       <fieldset class="boxType">
         <legend>Box Type</legend>
         <label><input type="radio" name="boxType" value="3" checked>x3</label>
-        <label><input type="radio" name="boxType" value="2">x2</label>
+        <label><input type="radio" name="boxType" value="2a">x2(80)</label>
+        <label><input type="radio" name="boxType" value="2b">x2(160)</label>
         <label><input type="radio" name="boxType" value="1a">x1(120)</label>
         <label><input type="radio" name="boxType" value="1b">x1(160)</label>
         <label class="boxLeft">Rewards Left:
@@ -120,7 +121,8 @@ input.boxTotal {
       <fieldset class="boxType">
         <legend>Box Type</legend>
         <label><input type="radio" name="boxType" value="3" checked>x3</label>
-        <label><input type="radio" name="boxType" value="2">x2</label>
+        <label><input type="radio" name="boxType" value="2a">x2(80)</label>
+        <label><input type="radio" name="boxType" value="2b">x2(160)</label>
         <label><input type="radio" name="boxType" value="1a">x1(120)</label>
         <label><input type="radio" name="boxType" value="1b">x1(160)</label>
         <label class="boxLeft">Rewards Left:
@@ -150,7 +152,8 @@ input.boxTotal {
       <fieldset class="boxType">
         <legend>Box Type</legend>
         <label><input type="radio" name="boxType" value="3" checked>x3</label>
-        <label><input type="radio" name="boxType" value="2">x2</label>
+        <label><input type="radio" name="boxType" value="2a">x2(80)</label>
+        <label><input type="radio" name="boxType" value="2b">x2(160)</label>
         <label><input type="radio" name="boxType" value="1a">x1(120)</label>
         <label><input type="radio" name="boxType" value="1b">x1(160)</label>
         <label class="boxLeft">Rewards Left:
@@ -178,17 +181,17 @@ input.boxTotal {
   </div>
   <script>
     const exchangeTable = {
-      a:{'1a':270,'1b':360,'2':360,'3':540},
-      b:{'1a':90,'1b':120,'2':180,'3':270},
-      c:{'1a':45,'1b':60,'2':120,'3':180},
-      d:{'1a':27,'1b':36,'2':90,'3':135},
-      e:{'1a':9,'1b':9,'2':18,'3':27},
-      f:{'1a':9,'1b':9,'2':18,'3':27},
-      g:{'1a':6,'1b':6,'2':12,'3':18}
+      a:{'1a':270,'1b':360,'2a':360,'2b':720,'3':540},
+      b:{'1a':90,'1b':120,'2a':180,'2b':240,'3':270},
+      c:{'1a':45,'1b':60,'2a':120,'2b':120,'3':180},
+      d:{'1a':27,'1b':36,'2a':90,'2b':72,'3':135},
+      e:{'1a':9,'1b':9,'2a':18,'2b':18,'3':27},
+      f:{'1a':9,'1b':9,'2a':18,'2b':18,'3':27},
+      g:{'1a':6,'1b':6,'2a':12,'2b':12,'3':18}
     }
     const boxData = {
-      total:{'1a':120,'1b':160,'2':80,'3':80},
-      price:{'1a':1,'1b':1,'2':2,'3':3}
+      total:{'1a':120,'1b':160,'2a':80,'2b':160,'3':80},
+      price:{'1a':1,'1b':1,'2a':2,'2b':2,'3':3}
     }
     function pointCalc(){
       const FORM = event.target.closest('form');
