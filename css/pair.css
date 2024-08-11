@@ -19,7 +19,7 @@ table#board td.selected {
   color: #000;
 }
 #card-list {
-  width: 80vw;
+  width: 360px;
 }
 #card-list button, td {
   width:64px;
