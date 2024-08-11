@@ -4,13 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./css/dark.css">
-  <link rel="stylesheet" href="./css/pair.css?202408111449">
+  <link rel="stylesheet" href="./css/pair.css">
   <title>Crown Pair Match</title>
 </head>
 <body>
   <div class="container">
     <h1>Crown Pair Match</h1>
-    <table id="board">
+    <table id="normal">
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+    </table>
+    <table id="party" style="display:none">
       <tr><td></td><td></td><td></td><td></td><td></td></tr>
       <tr><td></td><td></td><td></td><td></td><td></td></tr>
       <tr><td></td><td></td><td></td><td></td><td></td></tr>
@@ -45,14 +52,16 @@
   </div>
   <script>
     function tdSelect(td) {
-      document.querySelectorAll('#board td').forEach(otherTd => {
+      const isParty = document.getElementById('isParty').checked;
+      const board = (isParty) ? 'party' : 'normal';
+      document.querySelectorAll(`#${board} td`).forEach(otherTd => {
         otherTd.classList.remove('selected');
       });
       td.classList.add('selected');
     }
 
     function pickCardImage(button) {
-      const selectedTd = document.querySelector('#board td.selected');
+      const selectedTd = document.querySelector('td.selected');
       if (selectedTd) {
         selectedTd.setAttribute('class', button.value);
         selectedTd.classList.add('selected');
@@ -61,17 +70,21 @@
     
     function reset() {
       const isParty = document.getElementById('isParty').checked;
-      document.querySelectorAll('#board td').forEach(td => {
-        if(isParty) {
+      if(isParty){
+        document.querySelectorAll('#party td').forEach(td => {
           td.setAttribute('class', 'cover_2');
-        } else {
+        })
+      } else {
+        document.querySelectorAll('#normal td').forEach(td => {
           td.setAttribute('class', 'cover_1');
-        } 
-      })
+        })
+      }
     }
     
     function switchPartyMode() {
-      reset();
+      document.querySelectorAll('td').forEach(otherTd => {
+        otherTd.classList.remove('selected');
+      });
       const isParty = document.getElementById('isParty').checked;
       const partyCards = document.querySelectorAll('button.party');
       const normalCard = document.querySelector('button.normal');
@@ -80,17 +93,29 @@
           partyCard.style.display = 'inline-block';
         })
         normalCard.style.display = 'none';
+        document.getElementById('normal').style.display = 'none';
+        document.getElementById('party').style.display = 'table';
       } else {
         partyCards.forEach(partyCard => {
           partyCard.style.display = 'none';
         })
         normalCard.style.display = 'inline';
+        document.getElementById('normal').style.display = 'table';
+        document.getElementById('party').style.display = 'none';
       }
     }
 
-    reset();
+    function setCover (){
+      document.querySelectorAll('#normal td').forEach(td => {
+        td.classList.add('cover_1');
+      })
+      document.querySelectorAll('#party td').forEach(td => {
+        td.classList.add('cover_2');
+      })
+    }
+    setCover();
 
-    document.querySelectorAll('#board td').forEach(td => {
+    document.querySelectorAll('table td').forEach(td => {
       td.addEventListener('click', () => tdSelect(td));
     });
 
