@@ -1,14 +1,14 @@
 h1 {
   font-size: 18px;
 }
-table#board {
+table {
   border-spacing: 2px;
 }
-table#board td {
+table td {
   border: solid 0.5px #ccc;
   box-sizing: border-box;
 }
-table#board td.selected {
+table td.selected {
   border: solid 1.5px #cc2;
 }
 .reset {
