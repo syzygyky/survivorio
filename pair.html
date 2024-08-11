@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/dark.css">
+  <link rel="stylesheet" href="./css/pair.css">
+  <title>Crown Pair Match</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Crown Pair Match</h1>
+    <table id="board">
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+    </table>
+    <p>
+      <button type="button" class="reset">Reset</button>
+      <label><input type="checkbox" id="isParty">Party Mode</label>
+    </p>
+  </div>
+  <div id="card-list">
+    <button type="button" class="cover_1 normal" value="cover_1"></button>
+    <button type="button" class="cover_2 party" value="cover_2" style="display:none"></button>
+    <button type="button" class="mayor" value="mayor"></button>
+    <button type="button" class="wesson" value="wesson"></button>
+    <button type="button" class="catnips" value="catnips"></button>
+    <button type="button" class="yang" value="yang"></button>
+    <button type="button" class="astronaut" value="astronaut"></button>
+    <button type="button" class="wolf" value="wolf"></button>
+    <button type="button" class="moonbug" value="moonbug"></button>
+    <button type="button" class="tsukiyomi" value="tsukiyomi"></button>
+    <button type="button" class="metallia" value="metallia"></button>
+    <button type="button" class="common" value="common"></button>
+    <button type="button" class="king" value="king"></button>
+    <button type="button" class="crown" value="crown"></button>
+    <button type="button" class="plus1" value="plus1"></button>
+    <button type="button" class="purple party" valeu="purple" style="display:none"></button>
+    <button type="button" class="blue party" value="blue" style="display:none"></button>
+    <button type="button" class="green party" value="green" style="display:none"></button>
+    <button type="button" class="brown party" value="brown" style="display:none"></button>
+  </div>
+  <script>
+    function tdSelect(td) {
+      document.querySelectorAll('#board td').forEach(otherTd => {
+        otherTd.classList.remove('selected');
+      });
+      td.classList.add('selected');
+    }
+
+    function pickCardImage(button) {
+      const selectedTd = document.querySelector('#board td.selected');
+      if (selectedTd) {
+        selectedTd.setAttribute('class', button.value);
+        selectedTd.classList.add('selected');
+      }
+    }
+    
+    function reset() {
+      const isParty = document.getElementById('isParty').checked;
+      document.querySelectorAll('#board td').forEach(td => {
+        if(isParty) {
+          td.setAttribute('class', 'cover_2');
+        } else {
+          td.setAttribute('class', 'cover_1');
+        } 
+      })
+    }
+    
+    function switchPartyMode() {
+      reset();
+      const isParty = document.getElementById('isParty').checked;
+      const partyCards = document.querySelectorAll('button.party');
+      const normalCard = document.querySelector('button.normal');
+      if(isParty) {
+        partyCards.forEach(partyCard => {
+          partyCard.style.display = 'inline-block';
+        })
+        normalCard.style.display = 'none';
+      } else {
+        partyCards.forEach(partyCard => {
+          partyCard.style.display = 'none';
+        })
+        normalCard.style.display = 'inline';
+      }
+    }
+
+    reset();
+
+    document.querySelectorAll('#board td').forEach(td => {
+      td.addEventListener('click', () => tdSelect(td));
+    });
+
+    document.querySelectorAll('#card-list button').forEach(button => {
+      button.addEventListener('click', () => pickCardImage(button));
+    });
+
+    document.querySelector('button.reset').addEventListener('click', reset);
+    document.getElementById('isParty').addEventListener('click', switchPartyMode);
+  </script>
+</body>
+</html>
