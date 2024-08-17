@@ -9,7 +9,7 @@ table td {
   box-sizing: border-box;
 }
 table td.selected {
-  border: solid 1.5px #cc2;
+  border: solid 3px #4c2;
 }
 .reset {
   width: 120px;
