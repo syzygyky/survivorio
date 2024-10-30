@@ -67,7 +67,7 @@
       const seconds = Math.floor(remainingMilliseconds / 1000);
 
       const remainingTime = hours.toString().padStart(2, '0') + ":" + minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
-      const energy = hours*3 + Math.floor(minutes/10);
+      const energy = hours*6 + Math.floor(minutes/10);
       document.getElementById('remaining-energy').textContent = `${energy}~${energy+1} (${remainingTime})`;
     }
     setInterval(getRemainingEnergy,1000)
