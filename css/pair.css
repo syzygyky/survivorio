@@ -1,6 +1,7 @@
 h1 {
   font-size: 18px;
 }
+/*
 table {
   border-spacing: 2px;
 }
@@ -11,6 +12,24 @@ table td {
 table td.selected {
   border: solid 3px #4c2;
 }
+*/
+.board {
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
+  gap: 2px;
+  width: 328px;
+  justify-content: start;
+}
+.board div {
+  box-sizing: border-box;
+  border: solid 0.5px #ccc;
+}
+.board div.selected {
+  border: solid 3px #4c2;
+}
+.container {
+  margin-left: 24px;
+}
 .reset {
   width: 120px;
   height: 42px;
@@ -19,9 +38,15 @@ table td.selected {
   color: #000;
 }
 #card-list {
-  width: 360px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+  right: auto;
 }
-#card-list button, td {
+#card-list div {
+  width: 342px;
+}
+#card-list button, .board div {
   width:64px;
   height:64px;
   background-repeat: no-repeat;
@@ -29,7 +54,6 @@ table td.selected {
 }
 .cover_1 {
   background-image: url('../pic/pair/cover_1.png');
-
 }
 .cover_2 {
   background-image: url('../pic/pair/cover_2.png');
@@ -87,4 +111,19 @@ table td.selected {
 }
 .brown {
   background-image: url('../pic/pair/brown.png');
+}
+.lychee {
+  background-image: url('../pic/pair/lychee.png');
+}
+.greenapple {
+  background-image: url('../pic/pair/greenapple.png');
+}
+.blueberry {
+  background-image: url('../pic/pair/blueberry.png');
+}
+.grape {
+  background-image: url('../pic/pair/grape.png');
+}
+.banana {
+  background-image: url('../pic/pair/banana.png');
 }
