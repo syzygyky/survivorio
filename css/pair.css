@@ -35,7 +35,8 @@ table td.selected {
   height: 42px;
   background-color: #88c;
   font-weight: bold;
-  color: #000;
+  color: #622;
+  font-size: 20px;
 }
 #card-list {
   padding: 20px;
