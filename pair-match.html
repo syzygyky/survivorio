@@ -156,7 +156,7 @@
     document.querySelector('button.reset').addEventListener('click', reset);
     document.getElementById('isParty').addEventListener('click', switchPartyMode);
     window.addEventListener('click',(event)=>{
-      if(!dialog.contains(event.target)){
+      if(event.target === dialog){
         dialog.close();
       }
     })
