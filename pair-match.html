@@ -25,7 +25,6 @@
   <link rel="preload" href="./pic/pair/blueberry.png" as="image">
   <link rel="preload" href="./pic/pair/grape.png" as="image">
   <link rel="preload" href="./pic/pair/banana.png" as="image">
-
   <title>Fruit Pair Match</title>
 </head>
 <body>
@@ -77,6 +76,7 @@
   </dialog>
   <script>
     const dialog = document.getElementById('card-list');
+
     function cellSelect(div) {
       const isParty = document.getElementById('isParty').checked;
       const board = (isParty) ? 'party' : 'normal';
@@ -84,6 +84,8 @@
         otherCell.classList.remove('selected');
       });
       div.classList.add('selected');
+      dialog.style.top = `${event.clientY}px`;
+      dialog.style.transform = 'translateY(-60%)';
       dialog.showModal();
     }
 
