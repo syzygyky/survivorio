@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/dark.css">
+  <link rel="icon" href="./pic/favicon.ico">
+  <title>card flipping</title>
+  <style>
+    #grid {
+      display: grid;
+      grid-template-columns: repeat(8, 36px);
+      grid-template-rows: repeat(8, 36px);
+      margin: 20px;
+    }
+    #grid div{
+      border: solid 1px #333;
+      background: #ccc;
+    }
+    #grid div.selected {
+      background: #222;
+    }
+    .description {
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div id="grid">
+  </div>
+  <div class="description">
+    <p data-lang="en">
+      It's known that there is no goal point in squares within distance 3 from the start of the board.<br>
+      Selecting squares on this grid will darken the squares where no goal exists. Just use it as a note.
+    </p>
+    <p data-lang="ja">
+      そのボードの開始地点から距離3以内のマスにはゴールが存在しないことが分かっています。<br>
+      このグリッド上のマスを選択すると、ゴールが存在しないマスが暗転します。メモ代わりに利用してください。
+    </p>
+  </div>
+  <script>
+    const grid = document.getElementById('grid');
+    for(let i=0; i<8; i++){
+      for(let j=0; j<8; j++){
+        const cell = document.createElement('div');
+        cell.dataset.row = i;
+        cell.dataset.col = j;
+        cell.addEventListener('click', ()=>{
+          searchCellsInThreeRange(cell);
+        });
+        grid.append(cell);
+      }
+    }
+    function chebyshevDistance(x1, y1, x2, y2) {
+      return Math.max(Math.abs(x2 - x1), Math.abs(y2 - y1));
+    }
+    function searchCellsInThreeRange(selectedCell) {
+      const cells = grid.querySelectorAll('div');
+      const x1 = selectedCell.dataset.row;
+      const y1 = selectedCell.dataset.col;
+      cells.forEach(cell => {
+        cell.classList.remove('selected');
+        const x2 = cell.dataset.row;
+        const y2 = cell.dataset.col;
+        const distance = chebyshevDistance(x1,y1, x2, y2);
+        if (distance < 4 && distance !== 0) cell.style.background = '#666';
+        else cell.style.background = '';
+      })
+      selectedCell.classList.add('selected');
+    }
+  </script>
+</body>
+</html>
