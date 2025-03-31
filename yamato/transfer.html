@@ -90,7 +90,7 @@
       const approveRegex = new RegExp(`.*→${clan}\\n([\\s\\S]*?)(?=\\n{2,}|$)`, 'g');
 
       function formatText (text, regex) {
-        const list = [...text.matchAll(regex)].flatMap(match => match[1].trim().replaceAll(/[@ ]/g,'').split('\n'));
+        const list = [...text.matchAll(regex)].flatMap(match => match[1].trim().replaceAll(/[@ \p{Emoji_Presentation}\p{Extended_Pictographic}]/gu,'').split('\n'));
         console.log(list);
         const result = list.map((str, index) => `choice_${String.fromCharCode(97 + index)}:${str}`).join(' ');
         return result;
