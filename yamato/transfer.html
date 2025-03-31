@@ -64,20 +64,20 @@
       </details>
     </div>
     <div>
-      <form id="form">
-        <select id="clan">
-          <option value="I">I組</option>
-          <option value="Y">Y組</option>
-          <option value="Q">Q組</option>
-          <option value="A">A組</option>
-          <option value="K">K組</option>
-        </select>
+      <form id="form" name="form">
+        <p>
+          <label><input type="radio" name="clan" value="I">I組</label>
+          <label><input type="radio" name="clan" value="Y">Y組</label>
+          <label><input type="radio" name="clan" value="Q">Q組</label>
+          <label><input type="radio" name="clan" value="A">A組</label>
+          <label><input type="radio" name="clan" value="K">K組</label>
+        </p>
         <textarea id="user-text" placeholder="ここに貼り付けてください..."></textarea>
       </form>
     </div>
     <div class="result">
-      <code>/poll </code><textarea id="kick" readonly></textarea>
-      <code>/poll </code><textarea id="approve" readonly></textarea>
+      <textarea id="kick" placeholder="キック" readonly></textarea>
+      <textarea id="approve" placeholder="受け入れ" readonly></textarea>
     </div>
   </div>
 
@@ -85,7 +85,7 @@
     document.getElementById('form').addEventListener('change', geneatePollCommand);
     function geneatePollCommand(){
       const text = document.getElementById('user-text').value;
-      const clan = document.getElementById('clan').value;
+      const clan = document.form.clan.value;
       const kickRegex = new RegExp(`${clan}→.*\\n([\\s\\S]*?)(?=\\n{2,}|$)`, 'g');
       const approveRegex = new RegExp(`.*→${clan}\\n([\\s\\S]*?)(?=\\n{2,}|$)`, 'g');
 
@@ -96,8 +96,8 @@
         return result;
       }
       
-      const kickCommand = `question:キック ${formatText(text, kickRegex)}`;
-      const approveCommand = `question:受け入れ ${formatText(text, approveRegex)}`;
+      const kickCommand = `/poll question:キック ${formatText(text, kickRegex)}`;
+      const approveCommand = `/poll question:受け入れ ${formatText(text, approveRegex)}`;
 
       document.getElementById('kick').value = kickCommand;
       document.getElementById('approve').value = approveCommand;
