@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/dark.css">
+  <link rel="icon" href="./pic/favicon.ico">
+  <title>YAMATO | 移動管理用コマンド生成</title>
+  <style>
+    h1 {
+      font-size: 14px;
+    }
+    #user-text {
+      width: 98vw;
+      height: 30vh;
+    }
+    .result textarea {
+      width: 98vw;
+    }
+    pre {
+      white-space: pre-line;
+      margin-left: 12px;
+    }
+    .toast {
+      background-color: #333;
+      color: #fff;
+      font-size: 12px;
+      border-radius: 4px;
+      padding: 8px;
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>YAMATO 移動管理用コマンド生成</h1>
+    <div>
+      <form id="form">
+        <textarea id="user-text"></textarea>
+        <select id="clan">
+          <option value="I">I組</option>
+          <option value="Y">Y組</option>
+          <option value="Q">Q組</option>
+          <option value="A">A組</option>
+          <option value="K">K組</option>
+        </select>
+      </form>
+    </div>
+    <div class="description">
+      <p>
+        ブラウザ版の場合: <br>
+        ↑ここに配属先リストのテキストを貼り付けてください。（メニューの「テキストをコピー」ではなく、文字列を選択してコピーしてください。）
+      </p>
+      <p>
+        アプリ版の場合（テキストをそのままコピーできない場合）:<br>
+        以下のような形式で入力してください。
+        <pre>
+          →Y
+          名前1
+          名前2
+          名前3
+
+          Y→
+          名前1
+          名前2
+          名前3
+        </pre>
+      </p>
+    </div>
+    <div class="result">
+      <code>/poll </code><textarea id="kick" readonly></textarea>
+      <code>/poll </code><textarea id="approve" readonly></textarea>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('form').addEventListener('change', geneatePollCommand);
+    function geneatePollCommand(){
+      const text = document.getElementById('user-text').value;
+      const clan = document.getElementById('clan').value;
+      const kickRegex = new RegExp(`${clan}→.*\\n([\\s\\S]*?)(?=\\n{2,}|$)`, 'g');
+      const approveRegex = new RegExp(`.*→${clan}\\n([\\s\\S]*?)(?=\\n{2,}|$)`, 'g');
+
+      function formatText (text, regex) {
+        const list = [...text.matchAll(regex)].flatMap(match => match[1].trim().replaceAll(/[@ ]/g,'').split('\n'));
+        console.log(list);
+        const result = list.map((str, index) => `choice_${String.fromCharCode(97 + index)}:${str}`).join(' ');
+        return result;
+      }
+      
+      const kickCommand = `question:キック ${formatText(text, kickRegex)}`;
+      const approveCommand = `question:受け入れ ${formatText(text, approveRegex)}`;
+
+      document.getElementById('kick').value = kickCommand;
+      document.getElementById('approve').value = approveCommand;
+    }
+
+    document.querySelectorAll('.result textarea').forEach(elm => {
+      elm.addEventListener('click', ()=>{
+        event.stopPropagation();
+        const text = event.target.value;
+        navigator.clipboard.writeText(text).then(showToast);
+      });
+    })
+
+    function showToast() {
+      let toast = document.createElement('div');
+      toast.textContent = 'Copied';
+      toast.classList.add('toast');
+      document.body.appendChild(toast);
+
+      setTimeout(function() {
+        toast.style.opacity = '1';
+        setTimeout(function() {
+          toast.style.opacity = '0';
+          setTimeout(function() {
+            document.body.removeChild(toast);
+          }, 300);
+        }, 2000);
+      }, 0);
+    }
+  </script>
+</body>
+</html>
