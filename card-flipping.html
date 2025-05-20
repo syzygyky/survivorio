@@ -8,65 +8,361 @@
   <style>
     #grid {
       display: grid;
-      grid-template-columns: repeat(8, 40px);
-      grid-template-rows: repeat(8, 40px);
+      grid-template-columns: repeat(8, 39px);
+      grid-template-rows: repeat(8, 39px);
       margin: 20px;
     }
-    #grid div{
+    #grid div {
       border: solid 1px #333;
       background: #ccc;
+      position: relative;
     }
     #grid div.selected {
       background: #222;
     }
+    .path-marker {
+      color: #f11;
+      font-weight: bold;
+      line-height: 1;
+      position: absolute;
+      top: 50%; /*親要素を起点に上から50%*/
+      left: 50%;  /*親要素を起点に左から50%*/
+      transform: translateY(-50%) translateX(-50%); /*要素の大きさの半分ずつを戻す*/
+      -webkit-transform: translateY(-50%) translateX(-50%);
+      user-select: none;
+    }
     .description {
       font-size: 14px;
+    }
+    #results table {
+      border-collapse: collapse;
+    }
+    #results table tr, #results table td {
+      text-align: right;
+      border: solid 0.5px #ccc;
+      padding: 2px
     }
   </style>
 </head>
 <body>
   <div id="grid">
   </div>
+  <div id="results">
+  </div>
   <div class="description">
     <p data-lang="en">
       It's known that there is no goal point in squares within distance 3 from the start of the board.<br>
-      Selecting squares on this grid will darken the squares where no goal exists. Just use it as a note.
+      Selecting squares on this grid will darken the squares where no goal exists. Just use it as a note.<br>
+      An experimental feature has been added to display an efficient path. Please note that this is a prototype and accuracy is not guaranteed.<br>
+      *Since it does not account for items on the board, please prioritize more effective paths after acquiring items.
     </p>
     <p data-lang="ja">
       各ボードの開始地点から距離3以内のマスにはゴールが存在しないことが分かっています。<br>
-      上のグリッドのマスを選択すると、ゴールが存在しないマスが暗転します。メモ代わりに利用してください。
+      上のグリッドのマスを選択すると、ゴールが存在しないマスが暗転します。メモ代わりに利用してください。<br>
+      試験的に効率的なルートの表示を追加しました。試作段階のため正確性は保証できません。<br>
+      *ボード内のアイテムを考慮していないため、アイテム取得後はより効果的な経路を優先してください。
     </p>
   </div>
   <script>
-    const grid = document.getElementById('grid');
+    const grid = document.getElementById('grid')
     for(let i=0; i<8; i++){
       for(let j=0; j<8; j++){
-        const cell = document.createElement('div');
-        cell.dataset.row = i;
-        cell.dataset.col = j;
+        const cell = document.createElement('div')
+        cell.dataset.row = i
+        cell.dataset.col = j
         cell.addEventListener('click', ()=>{
-          searchCellsInThreeRange(cell);
-        });
-        grid.append(cell);
+          searchCellsInThreeRange(cell)
+          const initial = createInitialState(i, j)
+          const result = astar(initial)
+          showResults(result, initial, i, j)
+        })
+        grid.append(cell)
       }
     }
-    function chebyshevDistance(x1, y1, x2, y2) {
-      return Math.max(Math.abs(x2 - x1), Math.abs(y2 - y1));
-    }
     function searchCellsInThreeRange(selectedCell) {
-      const cells = grid.querySelectorAll('div');
-      const x1 = selectedCell.dataset.row;
-      const y1 = selectedCell.dataset.col;
+      const cells = grid.querySelectorAll('div')
+      const x1 = selectedCell.dataset.row
+      const y1 = selectedCell.dataset.col
       cells.forEach(cell => {
-        cell.classList.remove('selected');
-        const x2 = cell.dataset.row;
-        const y2 = cell.dataset.col;
-        const distance = chebyshevDistance(x1,y1, x2, y2);
-        if (distance < 4 && distance !== 0) cell.style.background = '#666';
-        else cell.style.background = '';
+        cell.classList.remove('selected')
+        const x2 = cell.dataset.row
+        const y2 = cell.dataset.col
+        const distance = chebyshevDist(x1,y1, x2, y2)
+        if (distance < 4 && distance !== 0) cell.style.background = '#666'
+        else cell.style.background = ''
       })
-      selectedCell.classList.add('selected');
+      selectedCell.classList.add('selected')
     }
+  // A* search with expected value tracking and improved performance
+  
+  const STATE_A = 0
+  const STATE_B = 1
+  const STATE_C = 2
+  const SIZE = 8
+  const GRID_SIZE = SIZE * SIZE
+  
+  function index(x, y) {
+    return y * SIZE + x
+  }
+
+  function coords(i) {
+    return [i % SIZE, Math.floor(i / SIZE)]
+  }
+  
+  function chebyshevDist(x1, y1, x2, y2) {
+    return Math.max(Math.abs(x1 - x2), Math.abs(y1 - y2))
+  }
+
+  function createInitialState(cx, cy) {
+    const state = new Uint8Array(GRID_SIZE)
+    for (let y = 0; y < SIZE; y++) {
+      for (let x = 0; x < SIZE; x++) {
+        const d = chebyshevDist(x, y, cx, cy)
+        const i = index(x, y)
+        if (d === 0) {
+          state[i] = STATE_C
+        } else if (d <= 3) {
+          state[i] = STATE_A
+        } else {
+          state[i] = STATE_B
+        }
+      }
+    }
+    return state
+  }
+  
+  function discover(state, i) {
+    const newState = state.slice()
+    const [x, y] = coords(i)
+    for (let dy = -1; dy <= 1; dy++) {
+      for (let dx = -1; dx <= 1; dx++) {
+        const nx = x + dx
+        const ny = y + dy
+        if (nx < 0 || nx >= SIZE || ny < 0 || ny >= SIZE) continue
+        const ni = index(nx, ny)
+        newState[ni] = STATE_C
+      }
+    }
+    return newState
+  }
+
+  function getBArray(state) {
+    const result = []
+    for (let i = 0; i < GRID_SIZE; i++) {
+      if (state[i] === STATE_B) {
+        result.push(i)
+      }
+    }
+    return result
+  }
+
+  function countB(state) {
+    return getBArray(state).length
+  }
+
+  function countC(state) {
+    return state.reduce((sum, v) => sum + (v === STATE_C ? 1 : 0), 0)
+  }
+
+  function bCentroid(bArray) {
+    if (bArray.length === 0) return [0, 0]
+    let sumX = 0
+    let sumY = 0
+    for (const i of bArray) {
+      const [x, y] = coords(i)
+      sumX += x
+      sumY += y
+    }
+    return [sumX / bArray.length, sumY / bArray.length]
+  }
+  
+  function distanceToCentroid(path, centroid) {
+    if (path.length === 0) return 0
+    const [lastX, lastY] = coords(path[path.length - 1])
+    const [cx, cy] = centroid
+    return Math.hypot(lastX - cx, lastY - cy)
+  }
+
+  
+  
+  function getExplorableCells(state) {
+    const result = []
+    for (let i = 0; i < GRID_SIZE; i++) {
+      if (state[i] === STATE_C) {
+        result.push(i)
+      }
+    }
+    return result
+  }
+
+  function serialize(state) {
+    return Array.from(state).join(',')
+  }
+
+  function astar(initialState) {
+    const visited = new Set()
+    const initialB = countB(initialState)
+    const heap = [{
+      state: initialState,
+      path: [],
+      bArray: getBArray(initialState),
+      g: 0,
+      prevDelta0: false
+    }]
+    
+    while (heap.length > 0) {
+      heap.sort((a, b) => {
+        const bDiff = a.bArray.length - b.bArray.length
+        if (bDiff !== 0) return bDiff
+
+        const cDiff = countC(b.state) - countC(a.state)
+        if (cDiff !== 0) return cDiff
+        
+        const centroid = bCentroid(a.bArray)
+        return distanceToCentroid(a.path, centroid) - distanceToCentroid(b.path, centroid)
+      })
+      
+      
+      const node = heap.shift()
+      const key = serialize(node.state)
+      if (visited.has(key)) continue
+      visited.add(key)
+      
+      if (node.bArray.length === 0) {
+        return node
+      }
+      
+      const explorable = getExplorableCells(node.state)
+      for (const i of explorable) {
+        const newState = discover(node.state, i)
+        const newBArray = getBArray(newState)
+        const delta = node.bArray.length - newBArray.length
+        const newG = node.g + 1
+        
+        heap.push({
+          state: newState,
+          path: [...node.path, i],
+          bArray: newBArray,
+          g: newG + (delta === 0 && node.prevDelta0 ? 1 : 0),
+          prevDelta0: delta === 0
+        })
+      }
+    }
+    return null
+  }
+  
+  const cx = 4, cy = 4
+  const initial = createInitialState(cx, cy)
+  const result = astar(initial)
+  //result.path = [[4,4],[3,3],[2,2],[1,1],[3,1],[1,3],[]]
+  
+  function calculateProbabilities(bCounts, deltas) {
+    const stepProbs = deltas.map((delta, i) => delta / bCounts[i])
+    const cumulativeProbs = []
+    let product = 1
+    for (let i = 0; i < stepProbs.length; i++) {
+      product *= (1 - stepProbs[i])
+      cumulativeProbs.push(1 - product)
+    }
+    return { stepProbs, cumulativeProbs }
+  }
+  function calculateExpectedHitStep(bCounts, deltas) {
+    const probs = deltas.map((delta, i) => delta / bCounts[i])
+    const firstHitProbs = []
+    let noHitProb = 1
+    for (let i = 0; i < probs.length; i++) {
+      const p = noHitProb * probs[i]
+      firstHitProbs.push(p)
+      noHitProb *= (1 - probs[i])
+    }
+
+    const expected = firstHitProbs.reduce((sum, p, i) => sum + p * i, 0)
+    return { expected, firstHitProbs }
+  }
+
+  function showResults(result, initial, x, y) {
+    const results = document.getElementById('results');
+    while (results.firstChild){
+      results.firstChild.remove()
+    }
+    if (result) {
+      // temprary repairs
+      if (x === 0 && y === 1) {
+        const path = [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,5],[4,3],[5,2],[6,1],[2,5],[1,6],[4,1],[6,6],[6,4],[2,7]]
+        result.path = path.map(e => index(e[0], e[1]))
+      } else if (x === 1 && y === 0) {
+        const path = [[1,0],[2,1],[3,2],[4,3],[5,4],[6,5],[5,6],[3,4],[2,5],[1,6],[5,2],[6,1],[1,4],[6,6],[4,6],[7,2]]
+        result.path = path.map(e => index(e[0], e[1]))
+      } else if (x === 6 && y === 0){
+        const path = [[6,0],[5,1],[4,2],[3,3],[2,4],[1,5],[2,6],[4,4],[5,5],[6,6],[2,2],[1,1],[6,4],[1,6],[3,6],[0,2]]
+        result.path = path.map(e => index(e[0], e[1]))
+      } else if (x === 7 && y === 1){
+        const path = [[7,1],[6,2],[5,3],[4,4],[3,5],[2,6],[1,5],[3,3],[2,2],[1,1],[5,5],[6,6],[3,1],[0,6],[1,4],[5,7]]
+        result.path = path.map(e => index(e[0], e[1]))
+      }
+      const bCounts = []
+      const deltas = []
+      let currentState = initial.slice()
+      for (const i of result.path) {
+        const before = countB(currentState)
+        currentState = discover(currentState, i)
+        bCounts.push(before)
+        const after = countB(currentState)
+        deltas.push(before - after)
+      }
+  
+      const { stepProbs, cumulativeProbs } = calculateProbabilities(bCounts, deltas)
+      const { expected, firstHitProbs } = calculateExpectedHitStep(bCounts, deltas)
+      
+      const path = result.path.map(i => coords(i))
+      document.querySelectorAll('.path-marker').forEach(e => e.remove())
+      path.forEach((e,i) => {
+        const cell = grid.querySelector('[data-row="'+e[0]+'"][data-col="'+e[1]+'"]')
+        const span = document.createElement('span')
+        span.textContent = i+1;
+        span.classList.add('path-marker')
+        cell.append(span)
+      })
+
+      console.log(path.join(','))
+      const table = document.createElement('table')
+      const thead = document.createElement('thead')
+      const tbody = document.createElement('tbody')
+      const tr = document.createElement('tr')
+      const ths = []
+      const tds = []
+      table.append(thead, tbody)
+      for(let i=0; i<3; i++) {
+        ths.push(document.createElement('th'))
+        tds.push(document.createElement('td'))
+        thead.append(ths[i])
+        tr.append(tds[i])
+      }
+      ths[0].textContent = 'No.'
+      ths[1].textContent = 'Prob.'
+      ths[2].textContent = 'Dist.'
+      path.forEach((e,i) => {
+        tr_ = tr.cloneNode(true)
+        const cells = tr_.cells
+        cells[0].textContent = i+1
+        cells[1].textContent = (cumulativeProbs[i]*100).toFixed(1)+'%'
+        cells[2].textContent = (firstHitProbs[i]*100).toFixed(1)+'%'
+        tbody.append(tr_)
+      })
+
+      const p = document.createElement('p')
+      p.textContent = 'Expected: ' + expected.toFixed(3)
+      results.append(p, table)
+      console.log('targetCellCounts:', bCounts)
+      console.log('deltas:', deltas)
+      console.log('各ステップのヒット確率:', stepProbs.map(p => p.toFixed(3)))
+      console.log('各ステップまでにヒットしている確率:', cumulativeProbs.map(p => p.toFixed(3)))
+      console.log('ヒットが初めて発生する確率分布:', firstHitProbs.map(p => p.toFixed(3)))
+      console.log('ヒットまでにかかるステップ数の期待値:', expected.toFixed(3))
+    } else {
+      console.log('解なし')
+    }
+  }
   </script>
 </body>
 </html>
