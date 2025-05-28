@@ -5,9 +5,9 @@ document.getElementById('chestButton').addEventListener('click', collectibleChes
 function clampAndFocusNext(event) {
   const input = event.target;
   const value = Math.floor(input.value);
-  if (value === '') return; 
-  if (input.value < Number(input.min)) input.value = input.min;
-  if (input.value > Number(input.max)) input.value = input.max;
+  if (input.value === '') return; 
+  if (value < Number(input.min)) input.value = input.min;
+  if (value > Number(input.max)) input.value = input.max;
   const inputs = Array.from(document.querySelectorAll('#collectibles input'));
   const index = inputs.indexOf(input);
   if (input.max === '10' && value === 1) return; 
