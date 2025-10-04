@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/dark.css">
+  <link rel="icon" href="./pic/favicon.ico">
+  <title>Pot Calculator</title>
+  <style>
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .wrapper {
+      margin: 10px
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(3, 100px);
+      gap: 8px;
+      justify-content: center;
+    }
+    .pot, .reset {
+      display: flex;
+      position: relative;
+      align-items: center;
+      justify-content: center;
+    }
+    .circle {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #bbb 60%, #aaa 61%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .colored {
+      background: radial-gradient(circle, #fc2 60%, #eb1 61%);
+    }
+    .inner {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: #644;
+      border-radius: 50%;
+      z-index: 1;
+    }
+    .circle input {
+      position: relative;
+      z-index: 2;
+      width: 40px;
+      height: 24px;
+      font-size: 24px;
+      font-weight: bold;
+      background: none;
+      border: dotted 0.5px #444;
+      color: #eee;
+      text-align: center;
+      border-radius: 6px;
+    }
+    .circle input::-webkit-outer-spin-button, 
+    .circle input::-webkit-inner-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0;
+      -moz-appearance:textfield;
+    } 
+    .circle input:focus {
+      outline: none;
+    }
+    .reset button {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: #66e;
+      color: #eee;
+      font-size: 52px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .reset button:active {
+      transform: scale(0.95);
+    }
+
+    .misc {
+      margin: 12px;
+    }
+    table {
+      border-collapse: collapse;
+    }
+    .tolerance-table {
+      border: solid 0.5px #ccc;
+    }
+    .tolerance-table th {
+      border: solid 0.5px #ccc;
+    }
+    .tolerance-table td {
+      border-right: solid 0.5px #ccc;
+      border-left: solid 0.5px #ccc;
+      text-align: right;
+    }
+
+    #result {
+      border: solid 0.5px #ccc;
+      margin: 20px;
+    }
+    #result th {
+      border: solid 0.5px #ccc;
+    }
+    #result td {
+      border-right: solid 0.5px #ccc;
+      border-left: solid 0.5px #ccc;
+    }
+    #result td:nth-child(1),
+    #result td:nth-child(4) {
+      text-align: center;
+      font-weight: bold;
+    }
+    #result td:nth-child(2),
+    #result td:nth-child(3) {
+      text-align: right;
+      padding: 1px;
+    }
+    .description {
+      margin-left: 20px;
+    }
+
+    .credit {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      font-size: 80%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="wrapper">
+
+      <form name="pots">
+        <div class="grid">        
+          <div class="pot"><div class="circle"><div class="inner"></div><input type="number"></div></div>
+          <div class="pot"><div class="circle"><div class="inner"></div><input type="number"></div></div>
+          <div class="pot"><div class="circle"><div class="inner"></div><input type="number"></div></div>
+          <div class="pot"><div class="circle"><div class="inner"></div><input type="number"></div></div>
+          <div class="pot"><div class="circle"><div class="inner"></div><input type="number"></div></div>
+          <div class="pot"><div class="circle"><div class="inner"></div><input type="number"></div></div>
+          <div class="pot"><div class="circle"><div class="inner"></div><input type="number"></div></div>
+        <div class="pot"><div class="circle"><div class="inner"></div><input type="number"></div></div>
+        <div class="reset">
+          <button type="button" id="resetBtn">↻</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="wrapper">
+    <div class="misc">
+      <label>
+        Gold Loss Tolerance: <input type="number" id="colored-tolerance" value="0.8" step="0.1" style="width: 4em">
+      </label>
+      <label>
+        Pots Loss Tolerance: <input type="number" id="pots-tolerance" value="8" step="0.1" style="width: 4em">
+      </label>
+      <details>
+        <table class="tolerance-table">
+          <thead>
+            <tr><th>GLT</th><th>Golds Saved</th><th>Points</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>0.0</td><td>100.0%</td><td>133.3</td></tr>
+            <tr><td>0.2</td><td>99.0%</td><td>136.2</td></tr>
+            <tr><td>0.4</td><td>96.5%</td><td>138.3</td></tr>
+            <tr><td>0.6</td><td>91.5%</td><td>140.3</td></tr>
+            <tr><td>0.8</td><td>91.0%</td><td>140.5</td></tr>
+            <tr><td>8.0</td><td>90.5%</td><td>140.5</td></tr>
+          </tbody>
+        </table>
+      </details>
+    </div>
+    <div class="result">
+      <table id="result">
+        <thead>
+          <tr><th></th><th>Current</th><th>Next</th><th>Continue?</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Points</td><td></td><td></td><td></td></tr>
+          <tr><td>Gold</td><td></td><td></td><td></td></tr>
+          <tr><td>Pots</td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="description">
+      To change the pot color, click the outer part.<br>
+      Type 0 to convert to 25.
+    </div>
+    <div class="credit">
+      <a href="https://docs.google.com/spreadsheets/d/1UqMfffaC4n2W3lER6KPh1t4MgohmUZd5ZiTgILruwRI/copy">Original calculator</a> - Created by Arp
+    </div>
+  </div>
+  <script>
+    const inputs = document.querySelectorAll('.grid .pot input')
+    inputs.forEach((input, i) => {
+      input.addEventListener('input', ()=>{
+        if (input.value === '') return
+        let value = Number(input.value)
+        if (value === 0) {
+          input.value = 25
+          value = 25
+        }
+        if (value >= 3) {
+          let nextIndex = i + 1
+          while (nextIndex < inputs.length && Number(inputs[nextIndex].value) >= 22) {
+            nextIndex++
+          }
+          if (nextIndex < inputs.length) {
+            inputs[nextIndex].focus()
+          } else {
+            input.blur()
+          }
+        }
+        if (value <= 17) {
+          input.style.color = '#eee'
+        } else if (value >= 18 && value <= 21) {
+          input.style.color = '#4d4'
+        }
+        if (value >= 22 && value <= 24) {
+          input.style.color = '#fc1'
+        } else if (value >= 25) (
+          input.style.color = '#f22'
+        )
+      })
+      input.addEventListener('focus', ()=>{
+        input.select()
+      })
+    })
+
+    const pots = document.querySelectorAll('.pot')
+    pots.forEach(pot => {
+      pot.addEventListener('click', e => {
+        if (!e.target.closest('input')) {
+          const circle = pot.querySelector('.circle')
+          if (circle.classList.contains('colored')) {
+            circle.classList.remove('colored')
+          } else {
+            circle.classList.add('colored')
+          }
+          calculate()
+        }
+      })
+    })
+
+    document.pots.addEventListener('input', calculate)
+    
+    document.querySelector('.reset button').addEventListener('click',()=>{
+      document.pots.reset()
+      const circles = document.querySelectorAll('.circle')
+      circles.forEach(circle => {
+        circle.classList.remove('colored')
+      })
+      inputs[0].focus()
+    })
+    
+    function calculate () {
+      const inputs = document.pots.querySelectorAll('input')
+      const values = [...inputs].map(input => Number(input.value))
+      const currentSum = values.reduce((a, v) => v < 25 ? a + v : a, 0)
+      const currentCount = values.filter(v => v < 25).length
+      const coloredIdx = [...document.querySelectorAll('.circle')]
+        .map((el, i) => el.classList.contains('colored') ? i : -1)
+        .filter(i => i !== -1)
+      const currentColored = values.filter((v,i) => v < 25 && coloredIdx.includes(i)).length
+      const coloredTolerance = Number(document.querySelector('#colored-tolerance').value)
+      const potsTolerance = Number(document.querySelector('#pots-tolerance').value)
+      
+      let arr = []
+      values.forEach(v => {
+        const innerArr = []
+        if (v < 22) {
+          for (let add = 1; add <= 7; add++) {
+            innerArr.push(v + add)
+          }
+        } else {
+          for (let i = 0; i < 7; i++) {
+            innerArr.push(v)
+          }
+        }
+        arr.push(innerArr)
+      })
+      const filtered = arr.flat().filter(v => v < 25)
+      const avgSum = filtered.reduce((a, b) => a + b, 0) / 7
+      const avgCount = filtered.length / 7
+      const coloredArr = arr.filter((el,i) => coloredIdx.includes(i))
+      const avgColoredCount = coloredArr.flat().filter(v => v < 25).length / 7
+  
+      const result = document.querySelector('#result')
+      const table = result.cloneNode(true)
+      const tbody = table.querySelector('tbody')
+      const rows = tbody.rows
+      rows[0].cells[1].textContent = currentSum.toFixed(1)
+      rows[0].cells[2].textContent = avgSum.toFixed(1)
+      rows[0].cells[3].textContent = avgSum > currentSum ? '✅' : '❌'
+      rows[1].cells[1].textContent = currentColored.toFixed(1)
+      rows[1].cells[2].textContent = avgColoredCount.toFixed(1)
+      rows[1].cells[3].textContent = currentColored - avgColoredCount < coloredTolerance ? '' : '⚠️'
+      rows[2].cells[1].textContent = currentCount.toFixed(1)
+      rows[2].cells[2].textContent = avgCount.toFixed(1)
+      rows[2].cells[3].textContent = currentCount - avgCount < potsTolerance ? '' : '⚠️'
+      result.querySelector('tbody').replaceWith(tbody) 
+    }
+  </script>
+</body>
+</html>
