@@ -10,9 +10,11 @@
     .container {
       display: flex;
       flex-wrap: wrap;
+      gap: 10px;
     }
-    .wrapper {
-      margin: 10px
+    .container > div {
+      flex: 1 1 300px;
+      box-sizing: border-box;
     }
     .grid {
       display: grid;
@@ -107,7 +109,8 @@
 
     #result {
       border: solid 0.5px #ccc;
-      margin: 20px;
+      margin: 12px;
+      font-size: 18px;
     }
     #result th {
       border: solid 0.5px #ccc;
@@ -127,7 +130,7 @@
       padding: 1px;
     }
     .description {
-      margin-left: 20px;
+      margin-left: 12px;
     }
 
     .credit {
@@ -314,5 +317,4 @@
     }
   </script>
 </body>
-
 </html>
