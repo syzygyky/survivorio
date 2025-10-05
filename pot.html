@@ -166,9 +166,9 @@
       <label>
         Gold Loss Tolerance: <input type="number" id="colored-tolerance" value="0.8" step="0.1" style="width: 4em">
       </label>
-      <label>
+      <!-- <label>
         Pots Loss Tolerance: <input type="number" id="pots-tolerance" value="8" step="0.1" style="width: 4em">
-      </label>
+      </label> -->
       <details>
         <table class="tolerance-table">
           <thead>
@@ -198,8 +198,8 @@
       </table>
     </div>
     <div class="description">
-      To change the pot color, click the outer part.<br>
-      Type 0 = 25.
+      Click the outer part of the pots to switch colors.<br>
+      Type 0 to quickly convert it to 25.
     </div>
     <div class="credit">
       <a href="https://docs.google.com/spreadsheets/d/1UqMfffaC4n2W3lER6KPh1t4MgohmUZd5ZiTgILruwRI/copy">Original calculator</a> - Created by Arp
@@ -278,8 +278,9 @@
         .filter(i => i !== -1)
       const currentColored = values.filter((v,i) => v < 25 && coloredIdx.includes(i)).length
       const coloredTolerance = Number(document.querySelector('#colored-tolerance').value)
-      const potsTolerance = Number(document.querySelector('#pots-tolerance').value)
-      
+      //const potsTolerance = Number(document.querySelector('#pots-tolerance').value)
+      const potsTolerance = 4
+
       let arr = []
       values.forEach(v => {
         const innerArr = []
