@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" href="./pic/favicon.ico">
+  <title>
+    Ace Order
+  </title>
+<style>
+body {background-color: #222;}
+
+input[type="number"]::-webkit-outer-spin-button, 
+input[type="number"]::-webkit-inner-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+} 
+input[type="number"] {
+  background-color: #333;
+  color: #ddd;
+  text-align: center;
+  font-size: 18px;
+  border: solid 0.5px #ccc;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+img {
+  width: 48px;
+  height: 48px;
+}
+label {
+  width: 48px;
+  display: grid;
+  margin-left: 4px;
+  border: solid 1px #ccc;
+}
+form div {
+  display: flex;
+  width: 160px;
+}
+#result {
+  background: #666;
+  color: #acc;
+}
+.blue {
+  background: #29f;
+}
+.purple {
+  background: #d4f;
+}
+.yellow {
+  background: #fe6;
+}
+</style>
+</head>
+<body>
+
+<form id="form" oninput="calculateTotals()">
+  <div>
+    <label>
+      <img src="./pic/ace_order/wood.png" class="blue">
+      <input type="number" name="wood">
+    </label>
+    <label>
+      <img src="./pic/ace_order/iron.png" class="blue">
+      <input type="number" name="iron">
+    </label>
+    <label>
+      <img src="./pic/ace_order/steel.png" class="blue">
+      <input type="number" name="steel">
+    </label>
+    <label>
+      <img src="./pic/ace_order/crystone.png" class="purple">
+      <input type="number" name="crystone">
+    </label>
+  </div>
+  <div>
+    <label>
+      <img src="./pic/ace_order/weapons_crate.png" class="blue">
+      <input type="number" name="weapon">
+    </label>
+    <label>
+      <img src="./pic/ace_order/medical_crate.png" class="blue">
+      <input type="number" name="medical">
+    </label>
+    <label>
+      <img src="./pic/ace_order/food_crate.png" class="blue">
+      <input type="number" name="food">
+    </label>
+  </div>
+  <div>
+    <label>
+      <img src="./pic/ace_order/identity_card.png" class="blue">
+      <input type="number" name="card">
+    </label>
+    <label>
+      <img src="./pic/ace_order/precision_gear.png" class="purple">
+      <input type="number" name="gear">
+    </label>
+    <label>
+      <img src="./pic/ace_order/integrated_chip.png" class="yellow">
+      <input type="number" name="chip">
+    </label>
+    <label>
+      <img src="./pic/ace_order/energy_core.png" class="yellow">
+      <input type="number" name="core">
+    </label>
+  </div>
+  <input type="reset" value="Reset" style="margin:4px; width: 128px; height: 48px; font-size: 18px;">
+</form>
+<div id="result">
+</div>
+<script>
+  function calculateTotals(){
+    const form = document.getElementById('form');
+    const requires = {};
+    form.querySelectorAll('input').forEach(input=>{
+      if(Number(input.value) > 0) requires[input.name] = Number(input.value);
+    });
+    const prices = {
+      wood: 1,
+      iron: 3,
+      steel: 1,
+      crystone: 4,
+      weapon: 2,
+      medical: 1,
+      food: 3,
+      card: 4,
+      gear: 2,
+      chip: 12,
+      core: 24
+    }
+    let totalCost = 0;
+    for(const key of Object.keys(requires)){
+      totalCost += requires[key] * prices[key];
+    }
+    document.getElementById('result').innerHTML = `<p>Hourglass: ${(totalCost/12).toFixed(2)} (Shard: ${totalCost})</p><p>Gem: ${(totalCost * 80/12).toFixed(2)}</p>`;
+  }
+</script>
+
+</body>
+</html>
